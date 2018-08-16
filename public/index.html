@@ -4,14 +4,21 @@
   <head>
     <title>Offline Race</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
     <link rel="shortcut icon" href="about:blank">
+    <link rel="stylesheet" type="text/css" href="style.css">
   </head>
 
   <body>
 
-    <div>
-      Offline Race App
-    </div>
+    <svg id="game">
+      <svg id="board"></svg>
+      <svg id="fix">
+        <text x="50%" y="50%" fill="white" font-size="10vh" text-anchor="middle" alignment-baseline="central">
+          Offline Race
+        </text>
+      </svg>
+    </svg>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/shared.js"></script>
