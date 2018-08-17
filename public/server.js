@@ -4,7 +4,7 @@
 
 console.log('Offline Race Server')
 
-const DIM_ROWS = 50;
+const DIM_ROWS = 10;
 const DIM_COLS = 6;
 
 class Game {
