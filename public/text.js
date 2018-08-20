@@ -5,6 +5,6 @@ class SVGText{
   }
 
   render(px,py){
-    return `<text x=${px} y=${py} font-family="3vh" onclick="${this.event}">${this.text}</text>`
+    return `<text x=${px} y=${py} font-family="3vh" onclick="${this.event}" ${this.event ? 'style="cursor:pointer;"' : ""}>${this.text}</text>`
   }
 }

@@ -5,6 +5,3 @@ const UI = {
   resetView: () => game.setAttribute("viewBox", ``),
   changeScene: el => (game.innerHTML = el)
 }
-
-
-

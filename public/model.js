@@ -5,7 +5,7 @@ class Game{
     this.state = 'intro';
     this.board = null;
     this.client = null;
-    UI.changeScene(new Intro().render());
+    UI.changeScene(new Intro('connect').render());
   }
 
   initGame(){
@@ -24,7 +24,7 @@ class GameClient {
 
   initializeEvents(socket){
     socket.on("connect", () => {
-      //UI.setMessage('wait')
+      UI.changeScene(new Intro('wait').render());
     });
 
     socket.on("disconnect", () => {
