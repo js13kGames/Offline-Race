@@ -11,19 +11,16 @@
 
   <body>
 
-    <svg id="game">
-      <svg id="board"></svg>
-      <svg id="fix">
-        <text id="msg" x="50%" y="50%" fill="white" font-size="10vh" text-anchor="middle" alignment-baseline="central" onclick="G.initGame()">
-          Play
-        </text>
-      </svg>
-    </svg>
+    <svg id="game"></svg>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/shared.js"></script>
+    <script src="/text.js"></script>
     <script src="/model.js"></script>
+    <script src="/plug.js"></script>
     <script src="/ui.js"></script>
+    <script src="/intro.js"></script>
+
     <script>
       let G = new Game();
     </script>

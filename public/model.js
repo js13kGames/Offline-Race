@@ -5,11 +5,13 @@ class Game{
     this.state = 'intro';
     this.board = null;
     this.client = null;
+    UI.changeScene(new Intro().render());
   }
 
   initGame(){
     this.client = new GameClient();
     this.state = 'connected';
+    console.log('conn')
   }
 }
 
@@ -22,32 +24,54 @@ class GameClient {
 
   initializeEvents(socket){
     socket.on("connect", () => {
-      UI.setMessage('wait')
+      //UI.setMessage('wait')
     });
 
     socket.on("disconnect", () => {
-      UI.setMessage('Offline Race Client')
       console.log('DISCONNECT');
     });
 
     socket.on("wait", () => {
-      UI.setMessage('wait')
-      UI.clearBoard();
+      console.log('wait');
     });
 
     socket.on("play", (data) => {
       G.board = new Board(data.sB, data.nR, data.nC);
-      UI.drawBoard(G.board.tiles);
-      UI.setMessage('play');
+      UI.resetView();
+      UI.changeScene(G.board.render());
     });
   }
 }
 
 class Board{
+
   constructor(sBoard,nRows,nCols){
     this.nRows = nRows;
     this.nCols = nCols;
     this.tiles = this.deserialize(sBoard,nRows,nCols);
+    this.render();
+  }
+
+  render(){
+    return  `<svg id="board">${this.drawTiles(this.tiles)}</svg>
+             <svg id="fix"></svg>`
+  }
+
+  drawTiles(tiles){
+    const TILE_SIZE = document.body.clientHeight / 6;
+    const HALF_TILE = TILE_SIZE / 2;
+    let strTiles = '';
+    tiles.forEach(function(t) {
+      const pos = t.split;
+      strTiles +=
+        `<g>
+          <rect x=${t.i * TILE_SIZE} y=${t.j * TILE_SIZE} width=${TILE_SIZE} height=${TILE_SIZE} fill='gray' stroke='white' stroke-width='2'/>
+          <text x=${t.i * TILE_SIZE + HALF_TILE} y=${t.j * TILE_SIZE + HALF_TILE} fill="white" font-size="4vh" text-anchor="middle" alignment-baseline="central">
+            ${t.v}
+          </text>
+        </g>`
+    });
+    return strTiles;
   }
 
   deserialize(sb,nR,nC){

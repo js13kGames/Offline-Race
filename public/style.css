@@ -10,5 +10,14 @@ html {
 #game {
   height: 100%;
   width: 100%;
-  background-color: black;
+  background-color: white;
+}
+
+.w{
+  stroke-width:4;
+  stroke:white;
+}
+.b{
+  stroke-width:3;
+  stroke:black;
 }
