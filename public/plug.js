@@ -18,4 +18,3 @@ class Plug{
     return this.el;
   }
 }
-

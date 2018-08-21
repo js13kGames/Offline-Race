@@ -90,6 +90,7 @@ class Board{
     this.el = createSVG('svg');
     this.el.id = "board";
     this.el.appendChild(this.drawTiles(this.tiles));
+    this.el.appendChild(new StartLine().render());
     this.el.addEventListener('mousemove',this.mmove);
     return this.el;
   }
@@ -133,6 +134,7 @@ class Tile{
     this.selected = false;
     this.el = createSVG('g');
     this.el.addEventListener('click',this.select.bind(this));
+    this.el.addEventListener('touchstart',this.select.bind(this));
     this.render();
   }
 
@@ -152,4 +154,19 @@ class Tile{
     return this.el;
   }
 
+}
+
+class StartLine{
+  constructor(){
+    this.el = createSVG('g');
+  }
+
+  render(){
+    const TILE_SIZE = (G.screenHeight >= 450 ? 450 : G.screenHeight) / 6;
+    const HALF_TILE = TILE_SIZE / 2;
+    let start = '';
+    for(let i = 0; i<6; i++) start += `<rect x=${-1 * TILE_SIZE} y=${i * TILE_SIZE} width=${TILE_SIZE} height=${TILE_SIZE} fill='none' stroke='black' stroke-width='6'/>`;
+    this.el.innerHTML = start;
+    return this.el;
+  }
 }
