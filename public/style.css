@@ -5,6 +5,7 @@ html {
   margin: 0px;
   overflow: hidden;
   font-family: Arial, Helvetica, sans-serif;
+  background-color:black;
 }
 
 #game {
