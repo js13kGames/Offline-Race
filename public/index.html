@@ -10,20 +10,24 @@
   </head>
 
   <body>
-
     <svg id="game"></svg>
-
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/shared.js"></script>
-    <script src="/text.js"></script>
-    <script src="/model.js"></script>
-    <script src="/plug.js"></script>
-    <script src="/intro.js"></script>
-
-    <script>
-      let G = new Game();
-    </script>
-
   </body>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/shared.js"></script>
+  <script src="/utils.js"></script>
+  <script src="/model/game.js"></script>
+  <script src="/model/gameClient.js"></script>
+  <script src="/model/board.js"></script>
+  <script src="/model/tile.js"></script>
+  <script src="/model/player.js"></script>
+  <script src="/model/startLine.js"></script>
+  <script src="/model/plug.js"></script>
+  <script src="/model/intro.js"></script>
+  <script src="/model/text.js"></script>
+
+  <script>
+    let G = new Game();
+  </script>
 
 </html>
