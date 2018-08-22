@@ -45,6 +45,7 @@ class GameServer {
 			findedRival.rival = newUser;
 			const board = this.createGame(newUser,findedRival);
 			const sendBoard = {sB:board, nR:DIM_ROWS, nC:DIM_COLS};
+			console.log({board: sendBoard, player: 1})
 			findedRival.socket.emit('play',{board: sendBoard, player: 1});
 			socket.emit('play',{board: sendBoard, player: 2});
 		}

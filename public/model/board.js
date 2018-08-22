@@ -1,8 +1,6 @@
 class Board{
 
   constructor(b,p){
-    // this.nRows = nRows;
-    // this.nCols = nCols;
     this.tiles = this.deserializeTiles(b.sB,b.nR,b.nC);
     this.players = [new Player(1,p==1),new Player(2,p==2)];
     this.startLine = new StartLine(this.players);
@@ -14,12 +12,19 @@ class Board{
     this.render();
   }
 
+  changeView (x,y,w,h) { this.el.setAttribute("viewBox", `${x} ${y} ${w} ${h}`) }
+
+  moveBoard (inc) { 
+    const vb = this.el.viewBox.baseVal;
+    this.el.setAttribute("viewBox", `${vb.x + inc} ${vb.y} ${vb.width} ${vb.height}`) 
+  }
+
   draw(){
     const gameHeight = document.body.clientHeight > 450 ? 450 : document.body.clientHeight;
     this.tSize = gameHeight / 6;
-    G.changeView(-this.tSize,0,G.screenWidth,gameHeight);
+    this.changeView(-this.tSize,0,G.screenWidth,gameHeight);
     this.el.appendChild(this.drawTiles(this.tiles,this.tSize));
-    G.add(this.startLine.render(this.tSize));
+    this.el.appendChild(this.startLine.render(this.tSize));
     //this.drawPlayers(this.tSize);
   }
 
@@ -36,7 +41,7 @@ class Board{
   clear () { while (this.el.firstChild) this.el.removeChild(this.el.firstChild); }
 
   mmove(e){
-    //console.log(e)
+    G.board.moveBoard(3);
   }
 
   drawTiles(tiles,tSize){

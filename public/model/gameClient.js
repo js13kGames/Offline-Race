@@ -30,6 +30,7 @@ class GameClient {
       G.clear();
       G.board = new Board(data.board,data.player);
       G.add(G.board.render());
+      G.resetView();
       document.body.onresize = () => G.refresh();
     });
   }
