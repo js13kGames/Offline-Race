@@ -31,11 +31,14 @@ class Game{
   }
 
   refresh () {
-    G.screenHeight = document.body.clientHeight;
-    G.screenWidth = document.body.clientWidth;
-    const gameHeight = document.body.clientHeight > 450 ? 450 : document.body.clientHeight;
-    this.adaptResolution();
-    G.board.refresh();
+    const currentHeight = document.body.clientHeight;
+    if(currentHeight > 450 && G.screenHeight > 450) return;
+    else{
+      G.screenHeight = currentHeight;
+      G.screenWidth = document.body.clientWidth;
+      this.adaptResolution();
+      G.board.refresh();
+    }
   }
 
   initGame(){

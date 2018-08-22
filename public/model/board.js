@@ -4,7 +4,7 @@ class Board{
     this.tiles = this.deserializeTiles(b.sB,b.nR,b.nC);
     this.players = [new Player(1,p==1),new Player(2,p==2)];
     this.startLine = new StartLine(this.players);
-
+    this.offsetX = 0;
     G.adaptResolution();
     this.el = createSVG('svg');
     this.el.id = "board";
@@ -16,25 +16,32 @@ class Board{
 
   moveBoard (inc) { 
     const vb = this.el.viewBox.baseVal;
-    this.el.setAttribute("viewBox", `${vb.x + inc} ${vb.y} ${vb.width} ${vb.height}`) 
+    this.offsetX += inc;
+    this.el.setAttribute("viewBox", `${this.offsetX} ${vb.y} ${vb.width} ${vb.height}`) 
   }
 
   draw(){
     const gameHeight = document.body.clientHeight > 450 ? 450 : document.body.clientHeight;
     this.tSize = gameHeight / 6;
-    this.changeView(-this.tSize,0,G.screenWidth,gameHeight);
     this.el.appendChild(this.drawTiles(this.tiles,this.tSize));
     this.el.appendChild(this.startLine.render(this.tSize));
     //this.drawPlayers(this.tSize);
   }
 
   render(){
+    const gameHeight = document.body.clientHeight > 450 ? 450 : document.body.clientHeight;
+    this.tSize = gameHeight / 6;
+    this.offsetX = -this.tSize;
+    this.changeView(this.offsetX,0,G.screenWidth,gameHeight);
     this.draw();
     return this.el;
   }
 
   refresh(){
+    //TODO: el offset debe ir en funcion de la tSize
     this.clear();
+    const gameHeight = document.body.clientHeight > 450 ? 450 : document.body.clientHeight;
+    this.changeView(this.offsetX,0,G.screenWidth,gameHeight);
     this.draw();
   }
 
