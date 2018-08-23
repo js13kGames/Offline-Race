@@ -39,7 +39,7 @@ class Board{
     this.tSize = gameHeight / 6;
     this.el.appendChild(this.drawTiles(this.tiles,this.tSize));
     this.el.appendChild(this.startLine.render(this.tSize));
-    //this.drawPlayers(this.tSize);
+    this.drawPlayers();
   }
 
   render(){
@@ -73,7 +73,7 @@ class Board{
 
   drawPlayers(tSize){
     let pArray = document.createDocumentFragment();
-    for(let i=0; i<this.players.length; i++) pArray.appendChild(this.players[i].render(tSize));
+    for(let i=0; i<this.players.length; i++) pArray.appendChild(this.players[i].render());
     this.el.appendChild(pArray);
   }
 
