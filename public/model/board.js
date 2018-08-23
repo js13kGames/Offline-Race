@@ -3,6 +3,7 @@ class Board{
   constructor(b,p){
     this.tiles = this.deserializeTiles(b.sB,b.nR,b.nC);
     this.players = [new Player(1,p==1),new Player(2,p==2)];
+    this.me = this.players.find((p) => p.itsYou);
     this.startLine = new StartLine(this.players);
     this.offsetX = 0;
     G.adaptResolution();
@@ -26,7 +27,7 @@ class Board{
        setTimeout(function() {
         requestAnimationFrame(() => self.animateBoardTo(pos));
         const dist = pos - self.offsetX;
-        const inc = dist > 200 ? 10 : dist > 120 ? 8 : dist > 4 ? 4 : 1;
+        const inc = dist > 200 ? 10 : dist > 120 ? 8 : dist > 4 ? 4 : dist < 1 ? pos - self.offsetX : 1;
         console.log(dist);
         self.moveBoard(inc);
       }, 1000 / 30);
