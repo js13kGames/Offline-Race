@@ -29,7 +29,9 @@ class GameClient {
       G.state = 'play';
       G.clear();
       G.board = new Board(data.board,data.player);
+      G.fixContent = new FixContent();
       G.add(G.board.render());
+      G.add(G.fixContent.render());
       G.resetView();
       document.body.onresize = () => G.refresh();
     });

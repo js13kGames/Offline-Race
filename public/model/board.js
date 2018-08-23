@@ -14,10 +14,23 @@ class Board{
 
   changeView (x,y,w,h) { this.el.setAttribute("viewBox", `${x} ${y} ${w} ${h}`) }
 
-  moveBoard (inc) { 
+  moveBoard (inc) {
     const vb = this.el.viewBox.baseVal;
     this.offsetX += inc;
-    this.el.setAttribute("viewBox", `${this.offsetX} ${vb.y} ${vb.width} ${vb.height}`) 
+    this.el.setAttribute('viewBox', `${this.offsetX} ${vb.y} ${vb.width} ${vb.height}`)
+  }
+
+  animateBoardTo(pos) {
+    let self = this;
+    if(this.offsetX != pos){
+       setTimeout(function() {
+        requestAnimationFrame(() => self.animateBoardTo(pos));
+        const dist = pos - self.offsetX;
+        const inc = dist > 200 ? 10 : dist > 120 ? 8 : dist > 4 ? 4 : 1;
+        console.log(dist);
+        self.moveBoard(inc);
+      }, 1000 / 30);
+    }
   }
 
   draw(){
@@ -48,7 +61,7 @@ class Board{
   clear () { while (this.el.firstChild) this.el.removeChild(this.el.firstChild); }
 
   mmove(e){
-    G.board.moveBoard(3);
+   // G.board.moveBoard(5);
   }
 
   drawTiles(tiles,tSize){
