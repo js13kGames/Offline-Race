@@ -2,8 +2,6 @@
 
 // Game server
 
-console.log('Offline Race Server')
-
 const DIM_ROWS = 100;
 const DIM_COLS = 6;
 

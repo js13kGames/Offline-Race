@@ -6,11 +6,11 @@ class Board{
     this.me = this.players.find((p) => p.itsYou);
     this.startLine = new StartLine(this.players);
     this.offsetX = 0;
+    this.numColsDisplay = 0;
+    this.animating = false;
     G.adaptResolution();
     this.el = createSVG('svg');
     this.el.id = "board";
-    this.el.addEventListener('mousemove',this.mmove);
-    this.render();
   }
 
   changeView (x,y,w,h) { this.el.setAttribute("viewBox", `${x} ${y} ${w} ${h}`) }
@@ -21,24 +21,31 @@ class Board{
     this.el.setAttribute('viewBox', `${this.offsetX} ${vb.y} ${vb.width} ${vb.height}`)
   }
 
-  animateBoardTo(pos) {
+  animateBoardTo(pos){
+    const self = this;
+    if(!this.animating) this.animateBoardToLoop(pos);
+    else setTimeout(() => self.animateBoardTo(pos),200);
+  }
+
+  animateBoardToLoop(pos) {
     let self = this;
+    this.animating = true;
     if(this.offsetX != pos){
        setTimeout(function() {
-        requestAnimationFrame(() => self.animateBoardTo(pos));
+        requestAnimationFrame(() => self.animateBoardToLoop(pos));
         const dist = pos - self.offsetX;
-        const inc = dist > 200 ? 10 : dist > 120 ? 8 : dist > 4 ? 4 : dist < 1 ? pos - self.offsetX : 1;
-        console.log(dist);
+        const distAbs = Math.abs(dist);
+        const dir = distAbs / dist;
+        const inc = (distAbs > 200 ? 10 : distAbs > 120 ? 8 : distAbs > 4 ? 4 : distAbs < 1 ? distAbs : 1) * dir;
         self.moveBoard(inc);
       }, 1000 / 30);
     }
+    else this.animating = false;
   }
 
-  draw(){
-    const gameHeight = document.body.clientHeight > 450 ? 450 : document.body.clientHeight;
-    this.tSize = gameHeight / 6;
-    this.el.appendChild(this.drawTiles(this.tiles,this.tSize));
-    this.el.appendChild(this.startLine.render(this.tSize));
+  draw(tS,gH){
+    this.el.appendChild(this.drawTiles(this.tiles,tS));
+    this.el.appendChild(this.startLine.render(tS));
     this.drawPlayers();
   }
 
@@ -47,28 +54,37 @@ class Board{
     this.tSize = gameHeight / 6;
     this.offsetX = -this.tSize;
     this.changeView(this.offsetX,0,G.screenWidth,gameHeight);
-    this.draw();
+    this.draw(this.tSize,gameHeight);
     return this.el;
   }
 
   refresh(){
-    //TODO: el offset debe ir en funcion de la tSize
     this.clear();
     const gameHeight = document.body.clientHeight > 450 ? 450 : document.body.clientHeight;
+    this.tSize = gameHeight / 6;
+    if(this.me) this.offsetX = this.me.currentPos.x * this.tSize - G.screenWidth/2;
     this.changeView(this.offsetX,0,G.screenWidth,gameHeight);
-    this.draw();
+    this.draw(this.tSize,gameHeight);
+    this.drawPlayers();
   }
 
   clear () { while (this.el.firstChild) this.el.removeChild(this.el.firstChild); }
 
-  mmove(e){
-   // G.board.moveBoard(5);
+  drawTiles(tiles,tSize){
+    this.numColsDisplay = parseInt((G.screenWidth + this.offsetX + tSize) / tSize);
+    const tilesFit = this.numColsDisplay * 6;
+    let tArray = document.createDocumentFragment();
+    for(let i=0;i<tilesFit;i++) tArray.appendChild(tiles[i].render(tSize));
+    return tArray;
   }
 
-  drawTiles(tiles,tSize){
-    let tArray = document.createDocumentFragment();
-    for(let i=0;i<tiles.length;i++) tArray.appendChild(tiles[i].render(tSize));
-    return tArray;
+  drawNextTiles(tSize,nextOffset){
+    const nextColsDisplay = parseInt((G.screenWidth + nextOffset + tSize) / tSize);
+    if(this.numColsDisplay < nextColsDisplay){
+      let tArray = document.createDocumentFragment();
+      for(let i=(this.numColsDisplay-1) * 6;i<nextColsDisplay * 6;i++) tArray.appendChild(G.board.tiles[i].render(tSize));
+      this.el.appendChild(tArray);
+    }
   }
 
   drawPlayers(tSize){

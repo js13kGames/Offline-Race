@@ -1,9 +1,9 @@
 function allowMove(from,to,lMove){
   let allow = (Math.abs(to.x - from.x) <= 1 && Math.abs(to.y - from.y) <=1) && !(lMove != null && (to.x == lMove.x && to.y == lMove.y));
-  console.log(from);
-  console.log(to);
-  console.log(lMove);
-  console.log('---------')
-  console.log(allow);
+  // console.log(from);
+  // console.log(to);
+  // console.log(lMove);
+  // console.log('---------')
+  // console.log(allow);
   return allow;
 }
