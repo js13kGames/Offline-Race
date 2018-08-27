@@ -7,8 +7,7 @@ const DIM_COLS = 6;
 
 class Game {
 	constructor(p1,p2){
-		this.player1 = p1;
-		this.player2 = p2;
+		this.players = [p1,p2];
 		this.serializedBoard = "";
 		this.numbers = [];
 		this.board = this.createMatrix();
@@ -31,12 +30,20 @@ class Game {
 	getNumber(event){
 		const number = Math.floor(Math.random() * 20) + 10;
 		this.numbers.push(number);
-		this.player1.socket.emit(event,number);
-		this.player2.socket.emit(event,number);
+		this.players.forEach((p)=> p.socket.emit(event,{i: this.numbers.length-1,n:number}));
 	}
 
-	checkPath(p){
-		console.log(p)
+	checkPath(path,pId){
+		let player = this.players[pId];
+		let sum = 0;
+		const mustSum = this.numbers[this.numbers.length-1];
+		for(let i=0;i<path.length;i++){
+			const tile = this.board[(path[i].x * DIM_COLS) + path[i].y];
+      sum += tile.v;
+		}	
+		if(sum == mustSum){
+			this.getNumber('next');
+		}
 	}
 
 }

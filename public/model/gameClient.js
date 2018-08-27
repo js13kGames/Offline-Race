@@ -42,9 +42,14 @@ class GameClient {
       checkReady();
     });
 
-    socket.on("start", (n) => {
-      G.numberToGet = n;
-      G.fixContent.add(new ImpactMsg(n).render());
+    socket.on("start", (number) => {
+      G.numberToGet = number.n;
+      G.fixContent.add(new ImpactMsg(number.n).render());
+    });
+
+    socket.on("next", (number) => {
+      G.numberToGet = number.n;
+      G.fixContent.add(new ImpactMsg(number.n).render());
     });
   }
 }

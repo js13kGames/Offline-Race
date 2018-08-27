@@ -79,7 +79,7 @@ class Player{
 
   sendPath(){
     const cP = this.currentPath.filter((p) => p.x != -1);
-    if (this.preValidatePath(cP,G.numberToGet)) G.client.socket.emit('path',cP);
+    if (this.preValidatePath(cP,G.numberToGet)) G.client.socket.emit('path',cP,this.id);
     else console.log('NOOOOOOOOO');
   }
 }
