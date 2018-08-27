@@ -30,11 +30,20 @@ class GameClient {
       G.clear();
       G.board = new Board(data.board,data.player);
       G.fixContent = new FixContent();
-      G.fixContent.add(new ImpactMsg('17').render(20,20));
+      //G.fixContent.add(new ImpactMsg('17').render(20,20));
       G.add(G.board.render());
       G.add(G.fixContent.render());
       G.resetView();
       document.body.onresize = () => G.refresh();
+      const checkReady = function () {
+        if(document.getElementById('fix')) socket.emit('ready');
+        else setTimeout(checkReady,200);
+      }
+      checkReady();
+    });
+
+    socket.on("start", (n) => {
+      G.fixContent.add(new ImpactMsg(n).render(20,20));
     });
   }
 }

@@ -6,11 +6,11 @@ const DIM_ROWS = 100;
 const DIM_COLS = 6;
 
 class Game {
-	constructor(id,p1,p2){
-		this.id = id;
+	constructor(p1,p2){
 		this.player1 = p1;
 		this.player2 = p2;
 		this.serializedBoard = "";
+		this.numbers = [];
 		this.board = this.createMatrix();
 	}
 
@@ -27,6 +27,14 @@ class Game {
 		this.serializedBoard.slice(this.serializedBoard.length - 1 ,1);
 		return m;
 	}
+
+	getNumber(event){
+		const number = Math.floor(Math.random() * 20) + 10;
+		this.numbers.push(number);
+		this.player1.socket.emit(event,number);
+		this.player2.socket.emit(event,number);
+	}
+
 }
 
 class GameServer {
@@ -37,8 +45,8 @@ class GameServer {
 	}
 
 	addUser(socket) {
-		let findedRival = this.users.find((u) => !u.rival)
-		const newUser = {id:socket.id, socket:socket , rival: findedRival ? findedRival : null};
+		let findedRival = this.users.find((u) => !u.rival);
+		const newUser = {id:socket.id, socket:socket , rival: findedRival ? findedRival : null, game: null};
 		if(findedRival) {
 			findedRival.rival = newUser;
 			const board = this.createGame(newUser,findedRival);
@@ -63,10 +71,19 @@ class GameServer {
 	}
 
 	createGame(p1,p2) {
-		const newGame = new Game(this.gamesCreated,p1,p2);
+		const newGame = new Game(p1,p2);
 		this.games.push(newGame);
-		this.gamesCreated ++;
+		p1.game = newGame;
+		p2.game = newGame;
 		return newGame.serializedBoard;
+	}
+
+	userReady(socket) {
+		let user = this.users.find((u) => u.id == socket.id);
+		user.ready = true;
+		if(user.rival && user.rival.ready) {
+			user.game.getNumber('start');
+		}
 	}
 }
 
@@ -77,6 +94,10 @@ module.exports = {
 		gs.addUser(socket);
 		socket.on("disconnect", () => {
 			gs.remUser(socket);
+		});
+
+		socket.on("ready", () => {
+			gs.userReady(socket);
 		});
 	}
 }
