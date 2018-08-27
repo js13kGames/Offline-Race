@@ -43,7 +43,8 @@ class GameClient {
     });
 
     socket.on("start", (n) => {
-      G.fixContent.add(new ImpactMsg(n).render(20,20));
+      G.numberToGet = n;
+      G.fixContent.add(new ImpactMsg(n).render());
     });
   }
 }

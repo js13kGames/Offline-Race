@@ -8,6 +8,7 @@ class Game{
     this.client = null;
     this.screenHeight = document.body.clientHeight;
     this.screenWidth = document.body.clientWidth;
+    this.numberToGet = null;
     this.add(new Intro('connect').render());
     this.changeView(-40,-40,160,160);
   }

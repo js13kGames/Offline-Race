@@ -3,7 +3,7 @@ class Tile{
   constructor(x,y,v){
     this.x = x;
     this.y = y;
-    this.value = v;
+    this.value = parseInt(v);
     this.selected = false;
     this.el = createSVG('g');
     this.el.addEventListener('click',this.select.bind(this));

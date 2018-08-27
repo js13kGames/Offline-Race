@@ -35,6 +35,10 @@ class Game {
 		this.player2.socket.emit(event,number);
 	}
 
+	checkPath(p){
+		console.log(p)
+	}
+
 }
 
 class GameServer {
@@ -85,6 +89,11 @@ class GameServer {
 			user.game.getNumber('start');
 		}
 	}
+
+	checkPath(socket,p) {
+		let user = this.users.find((u) => u.id == socket.id);
+		user.game.checkPath(p);
+	}
 }
 
 const gs = new GameServer();
@@ -98,6 +107,11 @@ module.exports = {
 
 		socket.on("ready", () => {
 			gs.userReady(socket);
+		});
+
+		socket.on("path", (p) => {
+			console.log('PPPPASA')
+			gs.checkPath(socket,p);
 		});
 	}
 }

@@ -5,7 +5,7 @@ class ImpactMsg{
     addStyle("@keyframes effect {0% {font-size: 0vh;fill:'white'} 50% {font-size: 25vh;transform: translate(0%, 0%);fill:red;text-anchor:middle; } 100%{text-anchor:end; font-size: 8vh;stroke-width: 0.3vh;transform: translate(45%, -40%); fill:yellow; }}");
   }
 
-  render(px,py){
+  render(){
     this.el.setAttribute('x','50%');
     this.el.setAttribute('y','50%');
     this.el.setAttribute('font-weight','25vh');

@@ -1,6 +1,7 @@
 class Board{
 
   constructor(b,p){
+    this.nCols = b.nC;
     this.tiles = this.deserializeTiles(b.sB,b.nR,b.nC);
     this.players = [new Player(1,p==1),new Player(2,p==2)];
     this.me = this.players.find((p) => p.itsYou);

@@ -5,6 +5,7 @@ class Player{
     this.path = [];
     this.currentPath = [{x:-1,y:(this.id == 1 ? 1 : 4)}];
     this.currentPos = {x:-1,y:(this.id == 1 ? 1 : 4)};
+    if(you) document.addEventListener("keydown", (e) => {if(e.keyCode==13)this.sendPath()}, false);
     this.el = createSVG('g');
   }
 
@@ -61,9 +62,24 @@ class Player{
       this.currentPath.push(to);
       this.currentPos = to;
 
-
       return true;
     }
     return false;
+  }
+
+  preValidatePath(p,n){
+    let sum = 0;
+    for(let i=0;i<p.length;i++){
+      const tile = G.board.tiles[(p[i].x * G.board.nCols) + p[i].y];
+      sum += tile.value;
+    }
+    if(sum == n) return true;
+    else return false;
+  }
+
+  sendPath(){
+    const cP = this.currentPath.filter((p) => p.x != -1);
+    if (this.preValidatePath(cP,G.numberToGet)) G.client.socket.emit('path',cP);
+    else console.log('NOOOOOOOOO');
   }
 }
