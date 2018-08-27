@@ -83,7 +83,7 @@ class Board{
     if(this.numColsDisplay < nextColsDisplay){
       let tArray = document.createDocumentFragment();
       for(let i=(this.numColsDisplay-1) * 6;i<nextColsDisplay * 6;i++) tArray.appendChild(G.board.tiles[i].render(tSize));
-      this.el.appendChild(tArray);
+      this.el.insertBefore(tArray,this.el.childNodes[0]);
     }
   }
 
