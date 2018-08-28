@@ -6,11 +6,10 @@ class Connector{
     this.itsYou = you;
     this.el.setAttribute('text-anchor','middle');
     this.el.setAttribute('alignment-baseline','central');
-    this.el.setAttribute('transform',`scale(${this.tSize/100})`);
   }
 
   position(p){
-    this.el.setAttribute('transform',`translate(${p.x * this.tSize},${(p.y * this.tSize + this.tSize/6)}) scale(${this.tSize/100})`);
+    this.el.setAttribute('transform',`translate(${p.x * this.tSize/2},${(p.y * this.tSize + this.tSize/3)}) scale(${this.tSize/200})`);
   }
 
   render(p){
