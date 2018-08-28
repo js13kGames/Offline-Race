@@ -20,7 +20,8 @@ class Player{
 
   renderInStart(tSize){
     const pos = (this.id == 1 ? 2 : 5) * tSize - tSize/2;
-    this.el.innerHTML = `<circle id="p${this.id}" cx="${-tSize/2}" cy="${pos}" r="${tSize/2}" fill="${this.itsYou ? 'green' : 'red'}"/>`;
+    this.add(new Connector(tSize,this.itsYou).render(this.currentPos));
+    //this.el.innerHTML = `<circle id="p${this.id}" cx="${-tSize/2}" cy="${pos}" r="${tSize/2}" fill="${this.itsYou ? 'green' : 'red'}"/>`;
     return this.el;
   }
 

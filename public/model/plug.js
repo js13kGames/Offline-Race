@@ -1,4 +1,3 @@
-
 class Plug{
 
   constructor(c){
