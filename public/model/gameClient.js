@@ -44,12 +44,13 @@ class GameClient {
 
     socket.on("start", (number) => {
       G.numberToGet = number.n;
-      G.fixContent.add(new ImpactMsg(number.n).render());
+      G.fixContent.add(new ImpactMsg(number.n,'numToGet').render());
     });
 
     socket.on("next", (number) => {
+      G.fixContent.remove(document.getElementById('numToGet'));
       G.numberToGet = number.n;
-      G.fixContent.add(new ImpactMsg(number.n).render());
+      G.fixContent.add(new ImpactMsg(number.n,'numToGet').render());
     });
   }
 }

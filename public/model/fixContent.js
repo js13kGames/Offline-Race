@@ -7,6 +7,8 @@ class FixContent{
 
   add(el) {this.el.appendChild(el);}
 
+  remove(el) {this.el.removeChild(el)}
+
   render(){
     return this.el;
   }
