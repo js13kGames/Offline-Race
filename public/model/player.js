@@ -2,9 +2,10 @@ class Player{
   constructor(id,you){
     this.id = id;
     this.itsYou = you;
-    this.path = [];
-    this.currentPath = [{x:-1,y:(this.id == 1 ? 1 : 4)}];
-    this.currentPos = {x:-1,y:(this.id == 1 ? 1 : 4)};
+    const initPos = {x:-1,y:(this.id == 1 ? 1 : 4)};
+    this.path = [initPos];
+    this.currentPath = [initPos];
+    this.currentPos = initPos;
     if(you) document.addEventListener("keydown", (e) => {if(e.keyCode==13)this.sendPath()}, false);
     this.el = createSVG('g');
   }
@@ -81,5 +82,16 @@ class Player{
     const cP = this.currentPath.filter((p) => p.x != -1);
     if (this.preValidatePath(cP,G.numberToGet)) G.client.socket.emit('path',cP,this.id);
     else console.log('NOOOOOOOOO');
+  }
+
+  numberGetted(pId){
+    if(this.id == pId){
+      this.path = this.path.concat(this.currentPath);
+      this.currentPath = [this.currentPos];
+    }
+    else{
+      this.currentPos = this.path[this.path.length - 1];
+      this.currentPath = [this.currentPos];
+    }
   }
 }
