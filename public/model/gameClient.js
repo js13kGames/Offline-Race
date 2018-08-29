@@ -47,9 +47,9 @@ class GameClient {
       G.fixContent.add(new ImpactMsg(number.n,'numToGet').render());
     });
 
-    socket.on("next", (number,idPlayerGet) => {
+    socket.on("next", (number,idPlayer,path) => {
       G.fixContent.remove(document.getElementById('numToGet'));
-      G.board.players.forEach((p) => p.numberGetted(idPlayerGet));
+      G.board.players.forEach((p) => p.numberGetted(idPlayer,path));
       G.numberToGet = number.n;
       G.fixContent.add(new ImpactMsg(number.n,'numToGet').render());
     });

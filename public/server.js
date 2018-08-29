@@ -27,22 +27,22 @@ class Game {
 		return m;
 	}
 
-	getNumber(event){
+	getNumber(event,pId,path){
 		const number = Math.floor(Math.random() * 20) + 10;
 		this.numbers.push(number);
-		this.players.forEach((p)=> p.socket.emit(event,{i: this.numbers.length-1,n:number}));
+		this.players.forEach((p)=> p.socket.emit(event,{i: this.numbers.length-1,n:number},pId,path));
 	}
 
 	checkPath(path,pId){
 		let player = this.players[pId];
 		let sum = 0;
 		const mustSum = this.numbers[this.numbers.length-1];
-		for(let i=0;i<path.length;i++){
+		for(let i=1;i<path.length;i++){
 			const tile = this.board[(path[i].x * DIM_COLS) + path[i].y];
       sum += tile.v;
 		}
 		if(sum == mustSum){
-			this.getNumber('next');
+			this.getNumber('next',pId,path);
 		}
 	}
 
@@ -57,10 +57,10 @@ class GameServer {
 
 	addUser(socket) {
 		let findedRival = this.users.find((u) => !u.rival);
-		const newUser = {id:socket.id, socket:socket , rival: findedRival ? findedRival : null, game: null};
+		const newUser = {id:socket.id, socket:socket , rival: findedRival ? findedRival : null, game: null, numPlayer: findedRival ? 2 : 1};
 		if(findedRival) {
 			findedRival.rival = newUser;
-			const board = this.createGame(newUser,findedRival);
+			const board = this.createGame(findedRival,newUser);
 			const sendBoard = {sB:board, nR:DIM_ROWS, nC:DIM_COLS};
 			findedRival.socket.emit('play',{board: sendBoard, player: 1});
 			socket.emit('play',{board: sendBoard, player: 2});
@@ -99,7 +99,7 @@ class GameServer {
 
 	checkPath(socket,p) {
 		let user = this.users.find((u) => u.id == socket.id);
-		user.game.checkPath(p);
+		user.game.checkPath(p,user.numPlayer);
 	}
 }
 
