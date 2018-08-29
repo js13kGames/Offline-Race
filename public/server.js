@@ -40,7 +40,7 @@ class Game {
 		for(let i=0;i<path.length;i++){
 			const tile = this.board[(path[i].x * DIM_COLS) + path[i].y];
       sum += tile.v;
-		}	
+		}
 		if(sum == mustSum){
 			this.getNumber('next');
 		}
@@ -117,7 +117,6 @@ module.exports = {
 		});
 
 		socket.on("path", (p) => {
-			console.log('PPPPASA')
 			gs.checkPath(socket,p);
 		});
 	}

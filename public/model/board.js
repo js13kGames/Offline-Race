@@ -5,7 +5,6 @@ class Board{
     this.tiles = this.deserializeTiles(b.sB,b.nR,b.nC);
     this.players = [new Player(1,p==1),new Player(2,p==2)];
     this.me = this.players.find((p) => p.itsYou);
-    this.startLine = new StartLine(this.players);
     this.offsetX = 0;
     this.numColsDisplay = 0;
     this.animating = false;
@@ -44,10 +43,9 @@ class Board{
     else this.animating = false;
   }
 
-  draw(tS,gH){
+  draw(tS){
     this.el.appendChild(this.drawTiles(this.tiles,tS));
-    this.el.appendChild(this.startLine.render(tS));
-    this.drawPlayers();
+    this.drawPlayers(tS);
   }
 
   render(){
@@ -55,7 +53,7 @@ class Board{
     this.tSize = gameHeight / 6;
     this.offsetX = -this.tSize;
     this.changeView(this.offsetX,0,G.screenWidth,gameHeight);
-    this.draw(this.tSize,gameHeight);
+    this.draw(this.tSize);
     return this.el;
   }
 
@@ -65,8 +63,7 @@ class Board{
     this.tSize = gameHeight / 6;
     if(this.me) this.offsetX = this.me.currentPos.x * this.tSize - G.screenWidth/2;
     this.changeView(this.offsetX,0,G.screenWidth,gameHeight);
-    this.draw(this.tSize,gameHeight);
-    this.drawPlayers();
+    this.draw(this.tSize);
   }
 
   clear () { while (this.el.firstChild) this.el.removeChild(this.el.firstChild); }
@@ -90,7 +87,7 @@ class Board{
 
   drawPlayers(tSize){
     let pArray = document.createDocumentFragment();
-    for(let i=0; i<this.players.length; i++) pArray.appendChild(this.players[i].render());
+    for(let i=0; i<this.players.length; i++) pArray.appendChild(this.players[i].render(tSize));
     this.el.appendChild(pArray);
   }
 

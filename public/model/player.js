@@ -1,5 +1,5 @@
 class Player{
-  constructor(id,you){
+  constructor(id,you,tSize){
     this.id = id;
     this.itsYou = you;
     const initPos = {x:-1,y:(this.id == 1 ? 1 : 4)};
@@ -7,21 +7,19 @@ class Player{
     this.currentPath = [initPos];
     this.currentPos = initPos;
     if(you) document.addEventListener("keydown", (e) => {if(e.keyCode==13)this.sendPath()}, false);
+    this.connector = new Connector(this.itsYou);
     this.el = createSVG('g');
+
   }
 
   add (el) { this.el.appendChild(el); }
 
-  render(){
+  render(tSize){
+    this.el.innerHTML = '';
     let tArray = document.createDocumentFragment();
     for(let i=1;i<this.currentPath.length;i++) tArray.appendChild(this.line(this.currentPath[i-1],this.currentPath[i],G.board.tSize));
-    return tArray;
-  }
-
-  renderInStart(tSize){
-    const pos = (this.id == 1 ? 2 : 5) * tSize - tSize/2;
-    this.add(new Connector(tSize,this.itsYou).render(this.currentPos));
-    //this.el.innerHTML = `<circle id="p${this.id}" cx="${-tSize/2}" cy="${pos}" r="${tSize/2}" fill="${this.itsYou ? 'green' : 'red'}"/>`;
+    this.add(this.connector.render(this.currentPos,tSize));
+    this.add(tArray);
     return this.el;
   }
 
@@ -33,16 +31,16 @@ class Player{
     fill.setAttribute('x2', p2.x * tS + tS/2);
     fill.setAttribute('y2', p2.y * tS + tS/2);
     fill.setAttribute('stroke-linecap', 'round');
-    fill.setAttribute('style', 'stroke:red;stroke-width:3;');
+    fill.setAttribute('style', 'stroke:green;stroke-width:3;');
     let stroke = createSVG('line');
     stroke.setAttribute('x1', p1.x * tS + tS/2);
     stroke.setAttribute('y1', p1.y * tS + tS/2);
     stroke.setAttribute('x2', p2.x * tS + tS/2);
     stroke.setAttribute('y2', p2.y * tS + tS/2);
     stroke.setAttribute('stroke-linecap', 'round');
-    stroke.setAttribute('style', 'stroke:black;stroke-width:5;');
-    connector.appendChild(fill);
+    stroke.setAttribute('style', 'stroke:black;stroke-width:6;');
     connector.appendChild(stroke);
+    connector.appendChild(fill);
     return connector;
   }
 
@@ -53,6 +51,7 @@ class Player{
       const tS = G.board.tSize;
 
       this.add(this.line(this.currentPos,to,tS));
+      this.connector.move(this.currentPos,to,tS);
 
       const incX = to.x - this.currentPos.x;
 
