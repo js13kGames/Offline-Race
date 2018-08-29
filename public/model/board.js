@@ -36,7 +36,7 @@ class Board{
         const dist = pos - self.offsetX;
         const distAbs = Math.abs(dist);
         const dir = distAbs / dist;
-        const inc = (distAbs > 200 ? 10 : distAbs > 120 ? 8 : distAbs > 4 ? 4 : distAbs < 1 ? distAbs : 1) * dir;
+        const inc = (distAbs > 120 ? 8 : distAbs > 20 ? 4 : distAbs < 1 ? distAbs : 2) * dir;
         self.moveBoard(inc);
       }, 1000 / 30);
     }

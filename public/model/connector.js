@@ -5,7 +5,7 @@ class Connector{
     this.itsYou = you;
     this.el.setAttribute('text-anchor','middle');
     this.el.setAttribute('alignment-baseline','central');
-    this.dir = [{x:0,y:0,r:0},{x:1,y:0,r:0},{x:1,y:1,r:45,off:{x:0.166,y:-0.085}},{x:0,y:1,r:90,off:{x:0.333,y:0}},{x:-1,y:1,r:135,off:{x:0.4,y:0.166}},{x:-1,y:0,r:180},{x:-1,y:-1,r:225,off:{x:0.166,y:0.4}},{x:0,y:-1,r:270,off:{x:0,y:0.333}},{x:1,y:-1,r:315,off:{x:-0.085,y:0.166}}]
+    this.dir = [{x:0,y:0,r:0},{x:1,y:0,r:0},{x:1,y:1,r:45,off:{x:0.166,y:-0.085}},{x:0,y:1,r:90,off:{x:0.333,y:0}},{x:-1,y:1,r:135,off:{x:0.4,y:0.166}},{x:-1,y:0,r:180,off:{x:0.333,y:0.333}},{x:-1,y:-1,r:225,off:{x:0.166,y:0.4}},{x:0,y:-1,r:270,off:{x:0,y:0.333}},{x:1,y:-1,r:315,off:{x:-0.085,y:0.166}}]
   }
 
   move(from,to,tS){

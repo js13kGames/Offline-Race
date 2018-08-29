@@ -55,7 +55,7 @@ class Player{
 
       const incX = to.x - this.currentPos.x;
 
-      if (this.currentPos.x*tS > G.screenWidth/2 + G.board.offsetX - tS && this.currentPos.x*tS < G.screenWidth/2 + tS + G.board.offsetX &&  (incX != 0)) {
+      if ((incX != 0) && this.currentPos.x*tS > G.screenWidth/2 + G.board.offsetX - tS && this.currentPos.x*tS < G.screenWidth/2 + tS + G.board.offsetX) {
         G.board.drawNextTiles(tS,G.board.offsetX + (incX * tS));
         G.board.animateBoardTo(G.board.offsetX + (incX * tS));
       }
