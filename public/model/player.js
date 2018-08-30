@@ -6,8 +6,21 @@ class Player{
     this.path = [initPos];
     this.currentPath = [initPos];
     this.currentPos = initPos;
-    if(you) document.addEventListener("keydown", (e) => {if(e.keyCode==13)this.sendPath()}, false);
-    if(you) document.addEventListener("keydown", (e) => {if(e.keyCode==46)this.clearPath()}, false);
+    if(you){
+      document.addEventListener("keydown", (e) => {if(e.keyCode==13)this.sendPath()}, false);
+      document.addEventListener("keydown", (e) => {if(e.keyCode==46)this.clearPath()}, false);
+
+      document.addEventListener("touchstart", (e) => {
+        const posI = e.touches[0].clientX;
+        let doThis = function(posI,e){
+          if(e.changedTouches[0].clientX - posI > 50) this.sendPath();
+          else if(e.changedTouches[0].clientX - posI < -50) this.clearPath();
+          document.removeEventListener("touchend", doT, false);
+        }
+        let doT = doThis.bind(this,posI);
+        document.addEventListener("touchend", doT, false);
+      },false);
+    }
     this.connector = new Connector(this.itsYou);
     this.el = createSVG('g');
   }
