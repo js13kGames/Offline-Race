@@ -37,7 +37,6 @@ class Board{
         const distAbs = Math.abs(dist);
         const dir = distAbs / dist;
         const inc = (distAbs > 120 ? 8 : distAbs > 20 ? 5 : distAbs > 3 ? 3 : distAbs < 1 ? distAbs : 1) * dir;
-        console.log(`${dist} -- ${inc}`)
         self.moveBoard(inc);
       }, 1000 / 30);
     }

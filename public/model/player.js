@@ -20,6 +20,11 @@ class Player{
     for(let i=1;i<this.path.length;i++) tArray.appendChild(this.line(this.path[i-1],this.path[i],tSize));
     for(let i=1;i<this.currentPath.length;i++) tArray.appendChild(this.line(this.currentPath[i-1],this.currentPath[i],tSize));
     this.add(this.connector.render(this.currentPos,tSize));
+    if(this.currentPath.length > 2 || this.path.length > 1){
+      if(this.currentPath.length > 1) this.connector.move(this.currentPath[this.currentPath.length-2],this.currentPath[this.currentPath.length-1],tSize);
+      else this.connector.move(this.path[this.path.length-2],this.path[this.path.length-1],tSize);
+    }
+
     this.add(tArray);
     return this.el;
   }
@@ -80,9 +85,8 @@ class Player{
   }
 
   sendPath(){
-    //const cP = this.currentPath.filter((p) => p.x != -1);
     if (this.preValidatePath(this.currentPath,G.numberToGet)) G.client.socket.emit('path',this.currentPath);
-    else console.log('NOOOOOOOOO');
+    else G.showMsg('sumKO','INCORRECT','red');
   }
 
   clearPath(){
@@ -94,13 +98,18 @@ class Player{
 
   numberGetted(pId,path){
     if(this.id == pId){
-      this.path = this.path.concat(this.currentPath);
-      this.currentPath = [this.currentPos];
-      if(!this.itsYou) this.path = this.path.concat(path);
+      if(!this.itsYou) {
+        debugger;
+        this.path = this.path.concat(path);
+      }else{
+        this.path = this.path.concat(this.currentPath);
+        this.currentPath = [this.currentPos];
+        G.showMsg('sumOK','WELL DONE !!','green');
+      }
       this.render(G.board.tSize);
     }
     else{
-      if(this.itsYou){ 
+      if(this.itsYou){
         this.clearPath();
       }
     }

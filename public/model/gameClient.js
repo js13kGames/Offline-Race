@@ -14,7 +14,6 @@ class GameClient {
 
     socket.on("disconnect", () => {
       G.state = 'intro';
-      console.log('DISCONNECT');
     });
 
     socket.on("wait", () => {
@@ -30,7 +29,6 @@ class GameClient {
       G.clear();
       G.board = new Board(data.board,data.player);
       G.fixContent = new FixContent();
-      //G.fixContent.add(new ImpactMsg('17').render(20,20));
       G.add(G.board.render());
       G.add(G.fixContent.render());
       G.resetView();
@@ -43,15 +41,13 @@ class GameClient {
     });
 
     socket.on("start", (number) => {
-      G.numberToGet = number.n;
-      G.fixContent.add(new ImpactMsg(number.n,'numToGet').render());
+      G.showNextNumber(number.n);
     });
 
     socket.on("next", (number,idPlayer,path) => {
       G.fixContent.remove(document.getElementById('numToGet'));
       G.board.players.forEach((p) => p.numberGetted(idPlayer,path));
-      G.numberToGet = number.n;
-      G.fixContent.add(new ImpactMsg(number.n,'numToGet').render());
+      G.showNextNumber(number.n);
     });
   }
 }
