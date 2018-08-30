@@ -50,14 +50,14 @@ class Player{
     fill.setAttribute('x2', p2.x * tS + tS/2);
     fill.setAttribute('y2', p2.y * tS + tS/2);
     fill.setAttribute('stroke-linecap', 'round');
-    fill.setAttribute('style', `stroke:${this.itsYou?'green':'red'};stroke-width:3;`);
+    fill.setAttribute('style', `stroke:${this.itsYou?'green':'red'};stroke-width:3;stroke-opacity:.4;`);
     let stroke = createSVG('line');
     stroke.setAttribute('x1', p1.x * tS + tS/2);
     stroke.setAttribute('y1', p1.y * tS + tS/2);
     stroke.setAttribute('x2', p2.x * tS + tS/2);
     stroke.setAttribute('y2', p2.y * tS + tS/2);
     stroke.setAttribute('stroke-linecap', 'round');
-    stroke.setAttribute('style', 'stroke:black;stroke-width:6;');
+    stroke.setAttribute('style', 'stroke:black;stroke-width:6;stroke-opacity:.3;');
     connector.appendChild(stroke);
     connector.appendChild(fill);
     return connector;
@@ -106,6 +106,7 @@ class Player{
     const lon = this.path.length
     this.currentPos = lon > 0 ? this.path[lon-1] : {x:-1,y:(this.id == 1 ? 1 : 4)};
     this.currentPath = [this.currentPos];
+    G.board.animateBoardTo(this.currentPos.x * G.board.tSize - G.screenWidth/2);
     this.render(G.board.tSize);
   }
 
