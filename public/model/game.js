@@ -18,14 +18,14 @@ class Game{
 
   clear () { while (this.el.firstChild) this.el.removeChild(this.el.firstChild); }
 
-  changeView (x,y,w,h) { this.el.setAttribute("viewBox", `${x} ${y} ${w} ${h}`) }
+  changeView (x,y,w,h) { this.el.set([["viewBox", `${x} ${y} ${w} ${h}`]]) }
 
   resetView () { game.removeAttribute("viewBox") }
 
   adaptResolution (){
     if(G.screenHeight >= 450 && this.state == 'play') {
-      G.el.setAttribute('style','height:450px;margin:"0 auto"');
-      G.body.setAttribute('style','display:flex;align-items: center;"');
+      G.el.set([['style','height:450px;margin:"0 auto"']]);
+      G.body.set([['style','display:flex;align-items: center;"']]);
     }
     else{
       G.el.removeAttribute('style');

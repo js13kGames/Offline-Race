@@ -12,8 +12,8 @@ class Tile{
   select(){
     this.selected = G.board.me.move({x:this.x,y:this.y});
     if(!this.selected) {
-      this.el.childNodes[0].setAttribute('fill','red');
-      setTimeout(() => this.el.childNodes[0].setAttribute('fill','none'),200)
+      this.el.childNodes[0].set([['fill','red']]);
+      setTimeout(() => this.el.childNodes[0].set([['fill','none']]),200)
     }
   }
 

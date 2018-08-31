@@ -45,19 +45,9 @@ class Player{
   line(p1,p2,tS){
     let connector = document.createDocumentFragment();
     let fill = createSVG('line');
-    fill.setAttribute('x1', p1.x * tS + tS/2);
-    fill.setAttribute('y1', p1.y * tS + tS/2);
-    fill.setAttribute('x2', p2.x * tS + tS/2);
-    fill.setAttribute('y2', p2.y * tS + tS/2);
-    fill.setAttribute('stroke-linecap', 'round');
-    fill.setAttribute('style', `stroke:${this.itsYou?'green':'red'};stroke-width:3;stroke-opacity:.4;`);
+    fill.set([['x1', p1.x * tS + tS/2],['y1', p1.y * tS + tS/2],['x2', p2.x * tS + tS/2],['y2', p2.y * tS + tS/2],['stroke-linecap', 'round'],['style', `stroke:${this.itsYou?'green':'red'};stroke-width:3;stroke-opacity:.4;`]]);
     let stroke = createSVG('line');
-    stroke.setAttribute('x1', p1.x * tS + tS/2);
-    stroke.setAttribute('y1', p1.y * tS + tS/2);
-    stroke.setAttribute('x2', p2.x * tS + tS/2);
-    stroke.setAttribute('y2', p2.y * tS + tS/2);
-    stroke.setAttribute('stroke-linecap', 'round');
-    stroke.setAttribute('style', 'stroke:black;stroke-width:6;stroke-opacity:.3;');
+    stroke.set([['x1', p1.x * tS + tS/2],['y1', p1.y * tS + tS/2],['x2', p2.x * tS + tS/2],['y2', p2.y * tS + tS/2],['stroke-linecap', 'round'],['style', 'stroke:black;stroke-width:6;stroke-opacity:.3;']]);
     connector.appendChild(stroke);
     connector.appendChild(fill);
     return connector;

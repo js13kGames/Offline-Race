@@ -3,7 +3,7 @@ class ImpactMsg{
     this.text = text;
     this.id = id;
     this.el = createSVG("text");
-    this.el.setAttribute('id',id);
+    this.el.set([['id',id]]);
     if(anim) {this.setAnimation(anim)};
   }
 
@@ -23,16 +23,8 @@ class ImpactMsg{
   }
 
   render(pos){
-    this.el.setAttribute('x',`${pos.x}%` );
-    this.el.setAttribute('y',`${pos.y}%`);
-    this.el.setAttribute('font-weight','bold');
-    this.el.setAttribute('font-family','arial');
-    this.el.setAttribute('text-anchor',`${pos.anchor}`);
-    this.el.setAttribute('alignment-baseline','central');
-    this.el.setAttribute('fill','white');
-    this.el.setAttribute('stroke-width','1vh');
-    this.el.setAttribute('stroke','black');
-    if(this.anim)this.el.setAttribute('style',`animation: ${this.id} ${this.anim.time} ${this.anim.persist ? 'forwards' : ''};`);
+    this.el.set([['x',`${pos.x}%`],['y',`${pos.y}%`],['font-weight','bold'],['font-family','arial'],['text-anchor',`${pos.anchor}`],['alignment-baseline','central'],['fill','white'],['stroke-width','1vh'],['stroke','black']]);
+    if(this.anim)this.el.set([['style',`animation: ${this.id} ${this.anim.time} ${this.anim.persist ? 'forwards' : ''};`]]);
     this.el.innerHTML = this.text;
     return this.el;
   }

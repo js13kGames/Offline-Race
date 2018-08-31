@@ -13,12 +13,12 @@ class Board{
     this.el.id = "board";
   }
 
-  changeView (x,y,w,h) { this.el.setAttribute("viewBox", `${x} ${y} ${w} ${h}`) }
+  changeView (x,y,w,h) { this.el.set([["viewBox", `${x} ${y} ${w} ${h}`]]) }
 
   moveBoard (inc) {
     const vb = this.el.viewBox.baseVal;
     this.offsetX += inc;
-    this.el.setAttribute('viewBox', `${this.offsetX} ${vb.y} ${vb.width} ${vb.height}`)
+    this.changeView(this.offsetX, vb.y, vb.width, vb.height)
   }
 
   animateBoardTo(pos){

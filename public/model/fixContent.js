@@ -2,7 +2,7 @@ class FixContent{
 
   constructor(x,y,v){
     this.el = createSVG('svg');
-    this.el.setAttribute('id','fix');
+    this.el.set([['id','fix']]);
   }
 
   add(el) {this.el.appendChild(el);}

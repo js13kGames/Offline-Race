@@ -13,22 +13,12 @@
     <svg id="game"></svg>
   </body>
 
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="/shared.js"></script>
   <script src="/utils.js"></script>
-  <script src="/model/game.js"></script>
-  <script src="/model/gameClient.js"></script>
-  <script src="/model/board.js"></script>
-  <script src="/model/tile.js"></script>
-  <script src="/model/player.js"></script>
-  <script src="/model/plug.js"></script>
-  <script src="/model/connector.js"></script>
-  <script src="/model/intro.js"></script>
-  <script src="/model/text.js"></script>
-  <script src="/model/fixContent.js"></script>
-  <script src="/model/impactMsg.js"></script>
+
   <script>
-    let G = new Game();
+    loadScripts(['/socket.io/socket.io.js','/shared.js'],['game','gameClient','board','tile','player','plug','connector','intro','text','fixContent','impactMsg'],
+                  () => {G = new Game()});
+
   </script>
 
 </html>

@@ -6,11 +6,7 @@ class SVGText{
   }
 
   render(px,py){
-    this.el.setAttribute('x',px);
-    this.el.setAttribute('y',py);
-    this.el.setAttribute('font-family','3vh');
-    this.el.setAttribute('onclick',this.event);
-    this.el.setAttribute('style',this.event ? 'cursor:pointer;' : '')
+    this.el.set([['x',px],['y',py],['font-family','3vh'],['onclick',this.event],['style',this.event ? 'cursor:pointer;' : '']]);
     this.el.innerHTML = this.text;
     return this.el;
   }
