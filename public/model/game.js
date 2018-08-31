@@ -46,18 +46,9 @@ class Game{
     const anim = {
       time:'4s',persist:true,
       keyf:[
-        {
-          percentage: 0,
-          style: `font-size: 0vh;fill:'white'`
-        },
-        {
-          percentage: 50,
-          style: `font-size: 25vh;transform: translate(0%, 0%);fill:red;text-anchor:middle;`
-        },
-        {
-          percentage: 100,
-          style: `text-anchor:end; font-size: 8vh;stroke-width: 0.3vh;transform: translate(45%, -40%); fill:yellow;`
-        },
+        {percentage: 0,style: `font-size: 0vh;fill:'white'`},
+        {percentage: 50,style: `font-size: 25vh;transform: translate(0%, 0%);fill:red;text-anchor:middle;`},
+        {percentage: 100,style: `text-anchor:end; font-size: 8vh;stroke-width: 0.3vh;transform: translate(45%, -40%); fill:yellow;`}
       ]
     }
     this.fixContent.add(new ImpactMsg('numToGet',n,anim).render({x:50,y:50,anchor:'middle'}));
@@ -65,18 +56,11 @@ class Game{
 
   showMsg (id,m,color) {
     this.fixContent.add(new ImpactMsg(id,m,{time:'2s',persist:false,keyf:
-    [{
-      percentage: 0,
-      style: `font-size: 0vh;fill:'white';stroke-width:0.25vh;`
-    },
-    {
-      percentage: 70,
-      style: `font-size: 10vh;stroke-width:0.25vh;`
-    },
-    {
-      percentage: 100,
-      style: `font-size: 10vh;fill:${color};stroke-width:0.25vh;`
-    }]}).render({x:90,y:5,anchor:'end'}));
+    [
+      {percentage: 0,style: `font-size: 0vh;fill:'white';stroke-width:0.25vh;`},
+      {percentage: 70,style: `font-size: 10vh;stroke-width:0.25vh;`},
+      {percentage: 100,style: `font-size: 10vh;fill:${color};stroke-width:0.25vh;`}
+    ]}).render({x:90,y:5,anchor:'end'}));
   }
 
   initGame(){
