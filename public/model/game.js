@@ -9,6 +9,7 @@ class Game{
     this.screenHeight = document.body.clientHeight;
     this.screenWidth = document.body.clientWidth;
     this.numberToGet = null;
+    this.isTouchDevice = ("ontouchstart" in document.documentElement);
     this.add(new Intro('connect').render());
     this.changeView(-40,-40,160,160);
   }

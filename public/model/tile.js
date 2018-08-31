@@ -6,8 +6,7 @@ class Tile{
     this.value = parseInt(v);
     this.selected = false;
     this.el = createSVG('g');
-    this.el.addEventListener('click',this.select.bind(this));
-    this.el.addEventListener('touchend',this.select.bind(this));
+    this.el.addEventListener(G.isTouchDevice ? 'touchstart' : 'click',this.select.bind(this));
   }
 
   select(){
