@@ -2,6 +2,7 @@ class Board{
 
   constructor(b,p){
     this.nCols = b.nC;
+    this.nRows = b.nR;
     this.tiles = this.deserializeTiles(b.sB,b.nR,b.nC);
     this.players = [new Player(1,p==1),new Player(2,p==2)];
     this.me = this.players.find((p) => p.itsYou);
@@ -46,6 +47,7 @@ class Board{
   draw(tS){
     this.el.appendChild(this.drawTiles(this.tiles,tS));
     this.drawPlayers(tS);
+    this.el.appendChild(new EndLine().render())
   }
 
   render(){
@@ -70,6 +72,7 @@ class Board{
 
   drawTiles(tiles,tSize){
     this.numColsDisplay = parseInt((G.screenWidth + this.offsetX + tSize) / tSize);
+    if(this.numColsDisplay > this.nRows) this.numColsDisplay = this.nRows;
     const tilesFit = this.numColsDisplay * 6;
     let tArray = document.createDocumentFragment();
     for(let i=0;i<tilesFit;i++) tArray.appendChild(tiles[i].render(tSize));
@@ -77,8 +80,8 @@ class Board{
   }
 
   drawNextTiles(tSize,nextOffset){
-    const nextColsDisplay = parseInt((G.screenWidth + nextOffset + tSize) / tSize);
-    if(this.numColsDisplay < nextColsDisplay){
+    let nextColsDisplay = parseInt((G.screenWidth + nextOffset + tSize) / tSize);
+    if(this.numColsDisplay < nextColsDisplay && nextColsDisplay < this.nRows){
       let tArray = document.createDocumentFragment();
       for(let i=(this.numColsDisplay-1) * 6;i<nextColsDisplay * 6;i++) tArray.appendChild(G.board.tiles[i].render(tSize));
       this.el.insertBefore(tArray,this.el.childNodes[0]);
