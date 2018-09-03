@@ -103,7 +103,6 @@ class Player{
   numberGetted(pId,path){
     if(this.id == pId){
       if(!this.itsYou) {
-        debugger;
         this.path = this.path.concat(path);
       }else{
         this.path = this.path.concat(this.currentPath);
