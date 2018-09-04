@@ -5,14 +5,14 @@ class ImpactMsg{
     this.el = createSVG("text");
     this.el.set([['id',id]]);
     this.end = end;
-    if(anim) {this.setAnimation(anim)};
+    if(anim) {this.setAnimation(id,anim)};
   }
 
   remove(el){
     el.parentNode.removeChild(el);
   }
 
-  setAnimation(anim){
+  setAnimation(id,anim){
     this.el.addEventListener("animationend",() => {
       if(!anim.persist) this.remove(this.el);
       if(this.end) this.end();
@@ -20,10 +20,15 @@ class ImpactMsg{
     this.anim = anim;
     const keyf = () => {
       let strKeys = '';
-      for(let i=0;i<anim.keyf.length;i++) strKeys += `${anim.keyf[i].percentage}% {${anim.keyf[i].style}} `;
+      for(let i=0;i<anim.keyf.length;i++) strKeys += `${anim.keyf[i].p}% {${anim.keyf[i].s}} `;
       return strKeys;
     }
-    addStyle(`@keyframes ${this.id} {${keyf()}}`);
+    addStyle(`@keyframes ${id} {${keyf()}}`);
+  }
+
+  addAnimation(id,anim){
+    this.setAnimation(id,anim);
+    this.el.set([['style',`animation: ${id} ${this.anim.time} ${this.anim.persist ? 'forwards' : ''};`]]);
   }
 
   render(pos){
