@@ -20,7 +20,6 @@ class GameClient {
       document.body.onresize = null;
       G.state = 'wait';
       G.clear();
-      G.changeView(-40,-40,160,160);
       G.add(new Intro('wait').render());
     });
 
