@@ -1,6 +1,5 @@
 class GameClient {
   constructor(){
-    // Connecting to sockets server
     this.socket = io();
     this.initializeEvents(this.socket);
   }

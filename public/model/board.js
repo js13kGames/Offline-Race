@@ -4,6 +4,7 @@ class Board{
     this.nCols = b.nC;
     this.nRows = b.nR;
     this.tiles = this.deserializeTiles(b.sB,b.nR,b.nC);
+    this.finalNumber = b.fN;
     this.players = [new Player(1,p==1),new Player(2,p==2)];
     this.me = this.players.find((p) => p.itsYou);
     this.offsetX = 0;
@@ -47,7 +48,7 @@ class Board{
   draw(tS){
     this.el.appendChild(this.drawTiles(this.tiles,tS));
     this.drawPlayers(tS);
-    this.el.appendChild(new EndLine().render(this.nRows*tS,tS))
+    this.el.appendChild(new EndLine(this.finalNumber).render(this.nRows*tS,tS))
   }
 
   render(){

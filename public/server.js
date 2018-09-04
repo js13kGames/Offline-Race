@@ -11,6 +11,7 @@ class Game {
 		this.serializedBoard = "";
 		this.numbers = [];
 		this.board = this.createMatrix();
+		this.finalNumber = Math.floor(Math.random() * 9) + 1;
 	}
 
 	createMatrix() {
@@ -61,7 +62,7 @@ class GameServer {
 		if(findedRival) {
 			findedRival.rival = newUser;
 			const board = this.createGame(findedRival,newUser);
-			const sendBoard = {sB:board, nR:DIM_ROWS, nC:DIM_COLS};
+			const sendBoard = {sB:board.sB, fN:board.fN, nR:DIM_ROWS, nC:DIM_COLS};
 			findedRival.socket.emit('play',{board: sendBoard, player: 1});
 			socket.emit('play',{board: sendBoard, player: 2});
 		}
@@ -86,7 +87,7 @@ class GameServer {
 		this.games.push(newGame);
 		p1.game = newGame;
 		p2.game = newGame;
-		return newGame.serializedBoard;
+		return {sB: newGame.serializedBoard, fN: newGame.finalNumber};
 	}
 
 	userReady(socket) {

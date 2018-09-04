@@ -45,7 +45,7 @@ class Player{
   line(p1,p2,tS){
     let connector = document.createDocumentFragment();
     let stroke = createSVG('line');
-    stroke.set([['x1', p1.x * tS + tS/2],['y1', p1.y * tS + tS/2],['x2', p2.x * tS + tS/2],['y2', p2.y * tS + tS/2],['stroke-linecap', 'round'],['style', `stroke:${this.itsYou?'green':'red'};stroke-width:6;stroke-opacity:.4;`]]);
+    stroke.set([['x1', p1.x * tS + tS/2],['y1', p1.y * tS + tS/2],['x2', p2.x * tS + tS/2],['y2', p2.y * tS + tS/2],['stroke-linecap', 'round'],['style', `stroke:${this.itsYou?'green':'red'};stroke-width:6;stroke-opacity:.4;`],['pointer-events','none']]);
     connector.appendChild(stroke);
     return connector;
   }

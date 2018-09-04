@@ -32,7 +32,7 @@ class ImpactMsg{
   }
 
   render(pos){
-    this.el.set([['x',`${pos.x}`],['y',`${pos.y}`],['font-weight','bold'],['font-family','arial'],['text-anchor',`${pos.anchor}`],['alignment-baseline','central'],['fill','white'],['stroke-width','1vh'],['stroke','black']]);
+    this.el.set([['x',`${pos.x}`],['y',`${pos.y}`],['font-weight','bold'],['font-family','arial'],['text-anchor',`${pos.anchor}`],['dominant-baseline','central'],['fill','white'],['stroke-width','1vh'],['stroke','black']]);
     if(this.anim)this.el.set([['style',`animation: ${this.id} ${this.anim.time} ${this.anim.persist ? 'forwards' : ''};`]]);
     this.el.innerHTML = this.text;
     return this.el;
