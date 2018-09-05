@@ -65,4 +65,10 @@ class Game{
   initGame(){
     this.client = new GameClient();
   }
+
+  endGame(youWin){
+    if(youWin) this.showMsg('win','You win','green');
+    else this.showMsg('lose','You lose','red');
+    this.state = 'connect';
+  }
 }

@@ -84,6 +84,17 @@ class Player{
     else return false;
   }
 
+  preValidateFinish(p,n,fN){
+    let sum = 0;
+    for(let i=1;i<p.length;i++){
+      const tile = G.board.tiles[(p[i].x * G.board.nCols) + p[i].y];
+      sum += tile.value;
+    }
+    sum += fN;
+    if(sum == n) return true;
+    else return false;
+  }
+
   sendPath(){
     if (this.preValidatePath(this.currentPath,G.numberToGet)) G.client.socket.emit('path',this.currentPath);
     else G.showMsg('sumKO','INCORRECT','red');
@@ -95,6 +106,14 @@ class Player{
     this.currentPath = [this.currentPos];
     G.board.animateBoardTo(this.currentPos.x * G.board.tSize - G.screenWidth/2);
     this.render(G.board.tSize);
+  }
+
+  finish(nR,fN){
+    if(this.currentPos.x == nR-1){
+      if (this.preValidateFinish(this.currentPath,G.numberToGet,fN)) G.client.socket.emit('finish',this.currentPath);
+      else G.showMsg('sumKO','INCORRECT','red');
+    }
+    else G.showMsg('sumKO','SORRY U Cant finish','red');
   }
 
   numberGetted(pId,path){

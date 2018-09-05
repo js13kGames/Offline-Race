@@ -47,5 +47,10 @@ class GameClient {
       G.board.players.forEach((p) => p.numberGetted(idPlayer,path));
       G.showNextNumber(number.n);
     });
+
+    socket.on("finish", (idPlayer,path) => {
+      let me = G.board.players.find((p)=> p.me);
+      G.endGame(me.id == idPlayer);
+    });
   }
 }

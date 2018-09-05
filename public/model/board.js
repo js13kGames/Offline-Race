@@ -48,7 +48,7 @@ class Board{
   draw(tS){
     this.el.appendChild(this.drawTiles(this.tiles,tS));
     this.drawPlayers(tS);
-    this.el.appendChild(new EndLine(this.finalNumber).render(this.nRows*tS,tS))
+    this.el.appendChild(new EndLine(this.nRows,this.finalNumber).render(tS))
   }
 
   render(){

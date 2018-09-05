@@ -2,7 +2,7 @@
 
 // Game server
 
-const DIM_ROWS = 20;
+const DIM_ROWS = 6;
 const DIM_COLS = 6;
 
 class Game {
@@ -44,6 +44,19 @@ class Game {
 		}
 		if(sum == mustSum){
 			this.getNumber('next',pId,path);
+		}
+	}
+
+	checkFinish(path,pId){
+		let player = this.players[pId];
+		let sum = this.finalNumber;
+		const mustSum = this.numbers[this.numbers.length-1];
+		for(let i=1;i<path.length;i++){
+			const tile = this.board[(path[i].x * DIM_COLS) + path[i].y];
+      sum += tile.v;
+		}
+		if(sum == mustSum){
+			this.players.forEach((p)=> p.socket.emit('finish',pId,path));
 		}
 	}
 
@@ -119,6 +132,10 @@ module.exports = {
 
 		socket.on("path", (p) => {
 			gs.checkPath(socket,p);
+		});
+
+		socket.on("finish", (p) => {
+			gs.checkFinish(socket,p);
 		});
 	}
 }
