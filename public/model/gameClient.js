@@ -49,7 +49,7 @@ class GameClient {
     });
 
     socket.on("finish", (idPlayer,path) => {
-      let me = G.board.players.find((p)=> p.me);
+      let me = G.board.players.find((p)=> p.itsYou);
       G.endGame(me.id == idPlayer);
     });
   }

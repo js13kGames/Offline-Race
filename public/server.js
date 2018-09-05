@@ -115,6 +115,11 @@ class GameServer {
 		let user = this.users.find((u) => u.id == socket.id);
 		user.game.checkPath(p,user.numPlayer);
 	}
+
+	checkFinish(socket,p) {
+		let user = this.users.find((u) => u.id == socket.id);
+		user.game.checkFinish(p,user.numPlayer);
+	}
 }
 
 const gs = new GameServer();
