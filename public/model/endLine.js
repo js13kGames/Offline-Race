@@ -9,10 +9,6 @@ class EndLine{
 
   select(){
     G.board.me.finish(this.nRows,this.finalNumber);
-    // if(!this.selected) {
-    //   this.el.childNodes[0].set([['fill','red']]);
-    //   setTimeout(() => this.el.childNodes[0].set([['fill','none']]),200)
-    // }
   }
 
   render(tS){
@@ -22,7 +18,7 @@ class EndLine{
         <rect x="${tS}" width="${tS}" height="${tS}" y="${tS}"/>
       </pattern>
       <rect x="${this.nRows * tS}" y="0" width="${tS*4}" height="${tS*6}" fill="url(#pattern-checkers)" stroke="black" />
-      <text x=${this.nRows * tS} y=${3 * tS} fill="yellow" font-size="22vh" text-anchor="middle" dominant-baseline="central" stroke="gray" stroke-width="1vh">
+      <text x=${this.nRows * tS + 2*tS} y=${3 * tS} fill="white" font-size=${G.maxH() ? '96px' : '22vh'} text-anchor="middle" dominant-baseline="central" stroke="black" stroke-width=${G.maxH() ? '4.5px' : '1vh'}>
         ${this.finalNumber}
       </text>`;
     this.el.innerHTML = strEndLine;

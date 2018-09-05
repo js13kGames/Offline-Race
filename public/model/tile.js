@@ -18,9 +18,10 @@ class Tile{
   }
 
   render(tSize){
+    const maxH = G.screenHeight >= 450;
     this.tSize = tSize;
     this.el.innerHTML =  `<circle cx=${this.x * tSize + tSize/2} cy=${this.y * tSize + tSize/2} r=${tSize/3} stroke="gray" stroke-width="1.5" fill="white" stroke-dasharray="4"/>
-                          <text x=${this.x * tSize + tSize/2} y=${this.y * tSize + tSize/2} fill="black" font-size="6vh" text-anchor="middle" dominant-baseline="central">
+                          <text x=${this.x * tSize + tSize/2} y=${this.y * tSize + tSize/2} fill="black" font-size=${G.maxH() ? '26px' : '6vh'} text-anchor="middle" dominant-baseline="central">
                             ${this.value}
                           </text>`;
     return this.el;

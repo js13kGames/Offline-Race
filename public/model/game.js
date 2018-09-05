@@ -8,6 +8,7 @@ class Game{
     this.client = null;
     this.screenHeight = document.body.clientHeight;
     this.screenWidth = document.body.clientWidth;
+    this.maxH = () => this.screenHeight >= 450;
     this.numberToGet = null;
     this.isTouchDevice = ("ontouchstart" in document.documentElement);
     this.add(new Intro('connect').render());
@@ -64,6 +65,7 @@ class Game{
 
   initGame(){
     this.client = new GameClient();
+    if(this.maxH())this.refresh();
   }
 
   endGame(youWin){
