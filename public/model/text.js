@@ -5,8 +5,8 @@ class SVGText{
     this.el = createSVG("text");
   }
 
-  render(px,py){
-    this.el.set([['x',px],['y',py],['font-family','3vh'],['onclick',this.event],['style',this.event ? 'cursor:pointer;' : '']]);
+  render(px,py,anchor,font){
+    this.el.set([['x',px],['y',py],['font-size',font ? font.size : ''],['onclick',this.event],['style',this.event ? 'cursor:pointer;' : ''],['text-anchor',`${anchor}`],['dominant-baseline','central']]);
     this.el.innerHTML = this.text;
     return this.el;
   }
