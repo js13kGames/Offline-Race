@@ -68,10 +68,6 @@ class Game{
     if(this.maxH())this.refresh();
   }
 
-  connect(){
-    G.client.socket.emit('connect');
-  }
-
   endGame(youWin){
     if(youWin) this.showMsg('win','You win','green');
     else this.showMsg('lose','You lose','red');

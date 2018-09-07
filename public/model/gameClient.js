@@ -15,12 +15,6 @@ class GameClient {
       G.state = 'intro';
     });
 
-    socket.on("serverInfo", (info) => {
-      G.state = 'wait';
-      G.clear();
-      G.add(new Intro('connected',info).render());
-    });
-
     socket.on("wait", () => {
       document.body.onresize = null;
       G.state = 'wait';

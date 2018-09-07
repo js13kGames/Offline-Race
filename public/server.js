@@ -120,23 +120,13 @@ class GameServer {
 		let user = this.users.find((u) => u.id == socket.id);
 		user.game.checkFinish(p,user.numPlayer);
 	}
-
-	sendInfo(socket){
-		console.log('PASAAAAAAAAAA ' + {u:this.users.length,g:this.games.length})
-		socket.emit("serverInfo",{u:this.users.length,g:this.games.length})
-	}
 }
 
 const gs = new GameServer();
 
 module.exports = {
 	io: function (socket) {
-		gs.sendInfo(socket);
-
-		socket.on("connect", () => {
-			gs.addUser(socket);
-		});
-
+		gs.addUser(socket);
 		socket.on("disconnect", () => {
 			gs.remUser(socket);
 		});
