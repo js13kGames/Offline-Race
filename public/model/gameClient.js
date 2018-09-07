@@ -50,6 +50,10 @@ class GameClient {
 
     socket.on("finish", (idPlayer,path) => {
       let me = G.board.players.find((p)=> p.itsYou);
+      G.board.players.forEach((p) => {
+        p.numberGetted(idPlayer,path);
+        p.finishMove(idPlayer,path);
+      });
       G.endGame(me.id == idPlayer);
     });
   }

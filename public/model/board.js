@@ -7,6 +7,7 @@ class Board{
     this.finalNumber = b.fN;
     this.players = [new Player(1,p==1),new Player(2,p==2)];
     this.me = this.players.find((p) => p.itsYou);
+    this.endLine = new EndLine(this.nRows,this.finalNumber);
     this.offsetX = 0;
     this.numColsDisplay = 0;
     this.animating = false;
@@ -48,7 +49,7 @@ class Board{
   draw(tS){
     this.el.appendChild(this.drawTiles(this.tiles,tS));
     this.drawPlayers(tS);
-    this.el.appendChild(new EndLine(this.nRows,this.finalNumber).render(tS))
+    this.el.appendChild(this.endLine.render(tS))
   }
 
   render(){

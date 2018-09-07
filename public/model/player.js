@@ -7,8 +7,11 @@ class Player{
     this.currentPath = [initPos];
     this.currentPos = initPos;
     if(you){
-      document.addEventListener("keydown", (e) => {if(e.keyCode==13)this.sendPath()}, false);
-      document.addEventListener("keydown", (e) => {if(e.keyCode==46)this.clearPath()}, false);
+
+      document.addEventListener("keydown", (e) => {
+        if(e.keyCode==13) this.sendPath();
+        else if (e.keyCode==46) this.clearPath();
+      }, false);
 
       document.addEventListener("touchstart", (e) => {
         const posI = e.touches[0].clientX;
@@ -114,6 +117,7 @@ class Player{
       else G.showMsg('sumKO','INCORRECT','red');
     }
     else G.showMsg('sumKO','SORRY U Cant finish','red');
+
   }
 
   numberGetted(pId,path){
@@ -131,6 +135,18 @@ class Player{
       if(this.itsYou){
         this.clearPath();
       }
+    }
+  }
+
+  finishMove(pId,path){
+    const endPos = {x:path[path.length-1].x + 1,y:path[path.length-1].y};
+    if(this.id == pId){
+      if(!this.itsYou) {
+        this.path = this.path.concat([endPos]);
+      }else{
+        this.path = this.path.concat([endPos]);
+      }
+      this.render(G.board.tSize);
     }
   }
 }

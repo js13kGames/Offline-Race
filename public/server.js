@@ -2,7 +2,7 @@
 
 // Game server
 
-const DIM_ROWS = 6;
+const DIM_ROWS = 16;
 const DIM_COLS = 6;
 
 class Game {
@@ -11,7 +11,7 @@ class Game {
 		this.serializedBoard = "";
 		this.numbers = [];
 		this.board = this.createMatrix();
-		this.finalNumber = Math.floor(Math.random() * 9) + 1;
+		this.finalNumber = 1;//Math.floor(Math.random() * 9) + 1;
 	}
 
 	createMatrix() {
@@ -19,7 +19,7 @@ class Game {
 		let m = [];
 		for (let i = 0; i < DIM_ROWS; i++) {
 			for (let j = 0; j < DIM_COLS; j++) {
-				const value = Math.floor(Math.random() * 9) + 1;
+				const value = 1;//Math.floor(Math.random() * 9) + 1;
 				this.serializedBoard += `${value},`
 				m[i * DIM_COLS + j] = { i, j, v: value };
 			}
@@ -29,7 +29,7 @@ class Game {
 	}
 
 	getNumber(event,pId,path){
-		const number = Math.floor(Math.random() * 20) + 10;
+		const number = 3;//Math.floor(Math.random() * 20) + 10;
 		this.numbers.push(number);
 		this.players.forEach((p)=> p.socket.emit(event,{i: this.numbers.length-1,n:number},pId,path));
 	}

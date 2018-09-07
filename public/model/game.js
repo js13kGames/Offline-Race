@@ -23,22 +23,22 @@ class Game{
   resetView () { game.removeAttribute("viewBox") }
 
   adaptResolution (){
-    if(G.screenHeight >= 450 && this.state == 'play') {
-      G.el.set([['style','height:450px;margin:"0 auto"']]);
-      G.body.set([['style','display:flex;align-items: center;"']]);
+    if(this.screenHeight >= 450 && this.state == 'play') {
+      this.el.set([['style','height:450px;margin:"0 auto"']]);
+      this.body.set([['style','display:flex;align-items: center;"']]);
     }
     else{
-      G.el.removeAttribute('style');
-      G.body.removeAttribute('style');
+      this.el.removeAttribute('style');
+      this.body.removeAttribute('style');
     }
   }
 
   refresh () {
     const currentHeight = document.body.clientHeight;
-    G.screenHeight = currentHeight;
-    G.screenWidth = document.body.clientWidth;
+    this.screenHeight = currentHeight;
+    this.screenWidth = document.body.clientWidth;
     this.adaptResolution();
-    G.board.refresh();
+    if(this.board) this.board.refresh();
   }
 
   showNextNumber (n) {
@@ -54,13 +54,13 @@ class Game{
     this.fixContent.add(new ImpactMsg('numToGet',n,anim).render({x:'50%',y:'50%',anchor:'middle'}));
   }
 
-  showMsg (id,m,color) {
-    this.fixContent.add(new ImpactMsg(id,m,{time:'2s',persist:false,keyf:
+  showMsg (id,m,color,pos,persist) {
+    this.fixContent.add(new ImpactMsg(id,m,{time:'2s',persist: persist ? persist : false,keyf:
     [
       {p: 0,s: `font-size: 0vh;fill:'white';stroke-width:0.25vh;`},
       {p: 70,s: `font-size: 10vh;stroke-width:0.25vh;`},
       {p: 100,s: `font-size: 10vh;fill:${color};stroke-width:0.25vh;`}
-    ]}).render({x:'90%',y:'5%',anchor:'end'}));
+    ]}).render(pos? {x:pos.x,y:pos.y,anchor:pos.anchor} : {x:'90%',y:'5%',anchor:'end'}));
   }
 
   initGame(){
@@ -69,8 +69,8 @@ class Game{
   }
 
   endGame(youWin){
-    if(youWin) this.showMsg('win','You win','green');
-    else this.showMsg('lose','You lose','red');
+    if(youWin) this.showMsg('win','YOU WIN','green',{x:'50%',y:'50%',anchor:'middle'},true);
+    else this.showMsg('lose','YOU LOSE','red',{x:'50%',y:'50%',anchor:'middle'},true);
     this.state = 'connect';
   }
 }
