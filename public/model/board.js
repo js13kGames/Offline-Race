@@ -83,7 +83,7 @@ class Board{
 
   drawNextTiles(tSize,nextOffset){
     let nextColsDisplay = parseInt((G.screenWidth + nextOffset + tSize) / tSize);
-    if(this.numColsDisplay < nextColsDisplay && nextColsDisplay < this.nRows){
+    if(this.numColsDisplay < nextColsDisplay && nextColsDisplay <= this.nRows){
       let tArray = document.createDocumentFragment();
       for(let i=(this.numColsDisplay-1) * 6;i<nextColsDisplay * 6;i++) tArray.appendChild(G.board.tiles[i].render(tSize));
       this.el.insertBefore(tArray,this.el.childNodes[0]);
