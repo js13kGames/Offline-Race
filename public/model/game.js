@@ -48,10 +48,12 @@ class Game{
       keyf:[
         {p: 0,s: `font-size: 0vh;fill:'white'`},
         {p: 50,s: `font-size: 25vh;transform: translate(0%, 0%);fill:red;text-anchor:middle;`},
-        {p: 100,s: `text-anchor:end; font-size: 8vh;stroke-width: 0.3vh;transform: translate(45%, -40%); fill:yellow;`}
+        {p: 100,s: `text-anchor:end; font-size: 0px;stroke-width: 0.3vh;transform: translate(45%, -40%); fill:yellow;`}
       ]
     }
+    this.fixContent.add(new Marker(n,this.board.tSize).render());
     this.fixContent.add(new ImpactMsg('numToGet',n,anim).render({x:'50%',y:'50%',anchor:'middle'}));
+    
   }
 
   showMsg (id,m,color,pos,persist) {

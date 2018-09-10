@@ -6,12 +6,14 @@ const DIM_ROWS = 16;
 const DIM_COLS = 6;
 
 class Game {
-	constructor(p1,p2){
+	constructor(p1,p2,id){
+		this.id = id;
 		this.players = [p1,p2];
 		this.serializedBoard = "";
 		this.numbers = [];
 		this.board = this.createMatrix();
-		this.finalNumber = 1;//Math.floor(Math.random() * 9) + 1;
+		this.finalNumber = Math.floor(Math.random() * 9) + 1;
+		this.timer = null;
 	}
 
 	createMatrix() {
@@ -19,7 +21,7 @@ class Game {
 		let m = [];
 		for (let i = 0; i < DIM_ROWS; i++) {
 			for (let j = 0; j < DIM_COLS; j++) {
-				const value = 1;//Math.floor(Math.random() * 9) + 1;
+				const value = Math.floor(Math.random() * 9) + 1;
 				this.serializedBoard += `${value},`
 				m[i * DIM_COLS + j] = { i, j, v: value };
 			}
@@ -29,9 +31,14 @@ class Game {
 	}
 
 	getNumber(event,pId,path){
-		const number = 3;//Math.floor(Math.random() * 20) + 10;
+		console.log(new Date().toISOString() + ' -- ' +event);
+		console.log(Date.now())
+		const number = Math.floor(Math.random() * 20) + 10;
 		this.numbers.push(number);
-		this.players.forEach((p)=> p.socket.emit(event,{i: this.numbers.length-1,n:number},pId,path));
+		const numberId = this.numbers.length-1;
+		this.players.forEach((p)=> p.socket.emit(event,{i: numberId,n:number},pId,path));
+		if(event == 'next') clearTimeout(this.timer);
+		this.timer = setTimeout(()=>this.getNumber('timeout',numberId),30000);
 	}
 
 	checkPath(path,pId){
@@ -90,17 +97,30 @@ class GameServer {
 			if(currentRival){
 				currentRival.rival = null;
 				currentRival.socket.emit('wait');
+				if(currentRival.game) this.deleteGame(currentRival.game.id);
 			}
 			this.users.splice(index, 1);
+		
 		}
 	}
 
 	createGame(p1,p2) {
-		const newGame = new Game(p1,p2);
+		const newGame = new Game(p1,p2,this.games.length);
 		this.games.push(newGame);
 		p1.game = newGame;
 		p2.game = newGame;
 		return {sB: newGame.serializedBoard, fN: newGame.finalNumber};
+	}
+
+	deleteGame(id){
+		const index = this.games.findIndex((g) => g.id == id);
+		if(index > -1){
+			clearTimeout(this.games[index].timer);
+			delete this.games[index];
+			this.games[index] = null;	
+			this.games.splice(index, 1);
+			console.log(this.games)
+		}
 	}
 
 	userReady(socket) {

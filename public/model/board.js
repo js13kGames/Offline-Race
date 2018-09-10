@@ -50,7 +50,6 @@ class Board{
     this.el.appendChild(this.drawTiles(this.tiles,tS));
     this.drawPlayers(tS);
     this.el.appendChild(this.endLine.render(tS))
-    this.el.appendChild(new Marker().render());
   }
 
   render(){

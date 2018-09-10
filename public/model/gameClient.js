@@ -48,6 +48,12 @@ class GameClient {
       G.showNextNumber(number.n);
     });
 
+    socket.on("timeout", (number) => {
+      G.fixContent.remove(document.getElementById('numToGet'));
+      G.showMsg('tout','TIMEOUT','red');
+      G.showNextNumber(number.n);
+    });
+
     socket.on("finish", (idPlayer,path) => {
       let me = G.board.players.find((p)=> p.itsYou);
       G.board.players.forEach((p) => {
