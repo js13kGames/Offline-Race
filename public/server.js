@@ -2,7 +2,7 @@
 
 // Game server
 
-const DIM_ROWS = 16;
+const DIM_ROWS = 6;
 const DIM_COLS = 6;
 
 class Game {
@@ -12,7 +12,7 @@ class Game {
 		this.serializedBoard = "";
 		this.numbers = [];
 		this.board = this.createMatrix();
-		this.finalNumber = Math.floor(Math.random() * 9) + 1;
+		this.finalNumber = 1;//Math.floor(Math.random() * 9) + 1;
 		this.timer = null;
 	}
 
@@ -21,7 +21,7 @@ class Game {
 		let m = [];
 		for (let i = 0; i < DIM_ROWS; i++) {
 			for (let j = 0; j < DIM_COLS; j++) {
-				const value = Math.floor(Math.random() * 9) + 1;
+				const value =1;// Math.floor(Math.random() * 9) + 1;
 				this.serializedBoard += `${value},`
 				m[i * DIM_COLS + j] = { i, j, v: value };
 			}
@@ -31,9 +31,7 @@ class Game {
 	}
 
 	getNumber(event,pId,path){
-		console.log(new Date().toISOString() + ' -- ' +event);
-		console.log(Date.now())
-		const number = Math.floor(Math.random() * 20) + 10;
+		const number = 3;//Math.floor(Math.random() * 20) + 10;
 		this.numbers.push(number);
 		const numberId = this.numbers.length-1;
 		this.players.forEach((p)=> p.socket.emit(event,{i: numberId,n:number},pId,path));
@@ -64,7 +62,9 @@ class Game {
 		}
 		if(sum == mustSum){
 			this.players.forEach((p)=> p.socket.emit('finish',pId,path));
+			return true;
 		}
+		else return false;
 	}
 
 }
@@ -119,7 +119,6 @@ class GameServer {
 			delete this.games[index];
 			this.games[index] = null;
 			this.games.splice(index, 1);
-			console.log(this.games)
 		}
 	}
 
@@ -138,7 +137,10 @@ class GameServer {
 
 	checkFinish(socket,p) {
 		let user = this.users.find((u) => u.id == socket.id);
-		user.game.checkFinish(p,user.numPlayer);
+		if (user.game.checkFinish(p,user.numPlayer)){
+			this.remUser(socket);
+			this.remUser(user.rival.socket);
+		}
 	}
 }
 

@@ -12,12 +12,16 @@ class GameClient {
     });
 
     socket.on("disconnect", () => {
-      G.showMsg('disc','Sorry your rival has disconnected','red')
-      setTimeout(() => {
-        G.state = 'wait';
-        G.clear();
-        G.add(new Intro('connect').render());
-      },3000);
+      if(G.state != 'finished'){
+        G.showMsg('disc','Sorry your rival has disconnected','red');
+        setTimeout(() => {
+          G.state = 'wait';
+          G.clear();
+          G.add(new Intro('connect').render());
+        },3000);
+      }
+      else G.showMsg('end','Game finished click anywhere to exit','red');
+      
     });
 
     socket.on("wait", () => {
@@ -66,6 +70,7 @@ class GameClient {
         p.finishMove(idPlayer,path);
       });
       G.endGame(me.id == idPlayer);
+      G.state = 'finished';
     });
   }
 }
