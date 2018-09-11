@@ -96,11 +96,11 @@ class GameServer {
 			let currentRival = this.users[index].rival;
 			if(currentRival){
 				currentRival.rival = null;
-				currentRival.socket.emit('wait');
+				currentRival.socket.disconnect();
 				if(currentRival.game) this.deleteGame(currentRival.game.id);
 			}
 			this.users.splice(index, 1);
-		
+
 		}
 	}
 
@@ -117,7 +117,7 @@ class GameServer {
 		if(index > -1){
 			clearTimeout(this.games[index].timer);
 			delete this.games[index];
-			this.games[index] = null;	
+			this.games[index] = null;
 			this.games.splice(index, 1);
 			console.log(this.games)
 		}

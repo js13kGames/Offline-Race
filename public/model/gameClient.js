@@ -12,7 +12,12 @@ class GameClient {
     });
 
     socket.on("disconnect", () => {
-      G.state = 'intro';
+      G.showMsg('disc','Sorry your rival has disconnected','red')
+      setTimeout(() => {
+        G.state = 'wait';
+        G.clear();
+        G.add(new Intro('connect').render());
+      },3000);
     });
 
     socket.on("wait", () => {
