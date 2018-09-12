@@ -3,10 +3,11 @@ class SVGText{
     this.text = t;
     this.event = e;
     this.el = createSVG("text");
+    this.el.addEventListener("click", this.event, false);
   }
 
-  render(px,py){
-    this.el.set([['x',px],['y',py],['font-family','3vh'],['onclick',this.event],['style',this.event ? 'cursor:pointer;' : '']]);
+  render(px,py,anchor){
+    this.el.set([['x',px],['y',py],['text-anchor',anchor?anchor:'middle'],['font-family','3vh'],['style',this.event ? 'cursor:pointer;' : '']]);
     this.el.innerHTML = this.text;
     return this.el;
   }
