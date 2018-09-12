@@ -6,8 +6,10 @@ class SVGText{
     this.el.addEventListener("click", this.event, false);
   }
 
-  render(px,py,anchor){
-    this.el.set([['x',px],['y',py],['text-anchor',anchor?anchor:'middle'],['font-family','3vh'],['style',this.event ? 'cursor:pointer;' : '']]);
+  render(px,py,anchor,font,editable){
+    const fontStyle = font ? `fill:${font.color};font-size:${font.size}` : '';
+    const style = (this.event ? 'cursor:pointer;' : '') + fontStyle;
+    this.el.set([['x',px],['y',py],['text-anchor',anchor?anchor:'middle'],['style',style]]);
     this.el.innerHTML = this.text;
     return this.el;
   }

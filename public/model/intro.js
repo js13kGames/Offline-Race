@@ -24,12 +24,29 @@ class Intro{
     },500);
   }
 
+
+
+  playwithmenu(){
+    this.remOpt();
+    this.addOpt(new SVGText('Create',this.sharemenu.bind(this)).render(15,105,'end'));
+    this.addOpt(new SVGText('Join',() => prompt()).render(40,105,'middle'));
+    this.addOpt(new SVGText('Back',this.submenu.bind(this)).render(65,105,'start',{color:'red'}));
+  }
+
+  sharemenu(){
+    this.remOpt();
+    this.addOpt(new SVGText("Share:XJE",true).render(40,105,'middle',{size:'3vh'}));
+    this.addOpt(new SVGText('Back',this.playwithmenu.bind(this)).render(70,105,'start',{color:'red'}));
+  }
+
   submenu(){
     this.remOpt();
-    this.addOpt(new SVGText(this.state == 'connect' ? 'Rand' : 'Wait',this.state == 'connect' ? G.initGame : null).render(15,105,'end'));
-    this.addOpt(new SVGText(this.state == 'connect' ? 'With' : 'Wait',this.state == 'connect' ?  () => alert('Random') : null).render(40,105,'middle'));
-    this.addOpt(new SVGText(this.state == 'connect' ? 'Back' : 'Wait',this.state == 'connect' ?  this.menu.bind(this) : null).render(65,105,'start'));
+    this.addOpt(new SVGText('Rand',G.initGame.bind(G,'rand')).render(15,105,'end'));
+    this.addOpt(new SVGText('With',this.playwithmenu.bind(this)).render(40,105,'middle'));
+    this.addOpt(new SVGText('Back',this.menu.bind(this)).render(65,105,'start',{color:'red'}));
   }
+
+
 
   menu(){
     G.changeView(-40,-40,160,160);
@@ -37,7 +54,8 @@ class Intro{
     this.remOpt();
     this.add(new SVGText('Offline Race').render(40,-10,'middle'));
     this.add(new Plug(this.state == 'wait').render());
-    this.addOpt(new SVGText(this.state == 'connect' ? 'Play' : 'Waiting for rival',this.state == 'connect' ? this.submenu.bind(this) : null).render(40,105,'middle'));
+    this.addOpt(new SVGText(this.state == 'connect' ? 'Play' : 'Waiting for rival',this.state == 'connect' ? this.submenu.bind(this) : null).render(40,105,'middle',(this.state == 'connect' ? null : {size:'3vh'})));
+    //if(this.state != 'connect') this.addOpt(new SVGText('Back',this.menu.bind(this)).render(65,105,'start',{color:'red'}));
     this.add(this.options);
   }
 

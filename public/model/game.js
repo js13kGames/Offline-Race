@@ -53,7 +53,7 @@ class Game{
     }
     this.fixContent.add(new Marker(n,this.board.tSize).render());
     this.fixContent.add(new ImpactMsg('numToGet',n,anim).render({x:'50%',y:'50%',anchor:'middle'}));
-    
+
   }
 
   showMsg (id,m,color,pos,persist) {
@@ -65,7 +65,8 @@ class Game{
     ]}).render(pos? {x:pos.x,y:pos.y,anchor:pos.anchor} : {x:'90%',y:'5%',anchor:'end'}));
   }
 
-  initGame(){
+  initGame(type){
+    console.log('p')
     this.client = new GameClient();
     if(this.maxH())this.refresh();
   }
