@@ -42,7 +42,7 @@ function createZip() {
         packageSize = archive.pointer();
     });
     archive.pipe(output);
-    archive.directory('public/', '');
+    archive.directory('minified/', '');
     archive.finalize();
 };
 
