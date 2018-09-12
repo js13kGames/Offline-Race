@@ -25,7 +25,7 @@ class EndLine{
     this.el.innerHTML = strEndLine;
     this.el.appendChild(this.plug.render(this.posX,this.posY,tS));
     let number = createSVG('text');
-    number.set([['x',this.posX+ tS/100],['y',this.posY+ tS/2],['fill','gray'],['font-size',G.maxH() ? '94px' : '21vh'],['text-anchor','middle'],['dominant-baseline','central'],['stroke','white'],['stroke-width',G.maxH() ? '4.6px' : '1vh']])
+    number.set([['x',this.posX+ tS/100 + 3],['y',this.posY+ tS/2 + 3],['fill','white'],['font-size',G.maxH() ? '94px' : '21vh'],['text-anchor','middle'],['dominant-baseline','central'],['stroke','darkred'],['stroke-width',G.maxH() ? '4.6px' : '1vh']])
     number.innerHTML = this.finalNumber;
     this.el.appendChild(number);
     return this.el;

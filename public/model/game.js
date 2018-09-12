@@ -79,7 +79,12 @@ class Game{
   endGame(youWin){
     if(youWin) this.showMsg('win','YOU WIN','green',{x:'50%',y:'50%',anchor:'middle'},true);
     else this.showMsg('lose','YOU LOSE','red',{x:'50%',y:'50%',anchor:'middle'},true);
-    this.state = 'connect';
+    setTimeout(() => {
+      G.state = 'wait';
+      G.clear();
+      this.client.socket.disconnect();
+      G.add(new Intro('connect').render());
+    },3000);
   }
 
   play(type){

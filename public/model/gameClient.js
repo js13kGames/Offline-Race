@@ -16,11 +16,10 @@ class GameClient {
           setTimeout(() => {
             G.state = 'wait';
             G.clear();
-            this.socket.disconnect();
+            this.socket.emit('disconnect');
             G.add(new Intro('connect').render());
           },3000);
         }
-        else G.showMsg('end','Game finished click anywhere to exit','red');
       }
     });
 

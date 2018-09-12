@@ -12,7 +12,7 @@ class Game {
 		this.serializedBoard = "";
 		this.numbers = [];
 		this.board = this.createMatrix();
-		this.finalNumber = 1;//Math.floor(Math.random() * 9) + 1;
+		this.finalNumber = Math.floor(Math.random() * 9) + 1;
 		this.timer = null;
 	}
 
@@ -21,7 +21,7 @@ class Game {
 		let m = [];
 		for (let i = 0; i < DIM_ROWS; i++) {
 			for (let j = 0; j < DIM_COLS; j++) {
-				const value =1;// Math.floor(Math.random() * 9) + 1;
+				const value = Math.floor(Math.random() * 9) + 1;
 				this.serializedBoard += `${value},`
 				m[i * DIM_COLS + j] = { i, j, v: value };
 			}
@@ -31,7 +31,7 @@ class Game {
 	}
 
 	getNumber(event,pId,path){
-		const number = 3;//Math.floor(Math.random() * 20) + 10;
+		const number = Math.floor(Math.random() * 20) + 10;
 		this.numbers.push(number);
 		const numberId = this.numbers.length-1;
 		this.players.forEach((p)=> p.socket.emit(event,{i: numberId,n:number},pId,path));
@@ -73,7 +73,6 @@ class GameServer {
 	constructor(){
 		this.games = [];
 		this.users = [];
-		this.gamesCreated = 0;
 	}
 
 	addUser(socket) {
@@ -115,12 +114,15 @@ class GameServer {
 
 	remUser(socket) {
 		const index = this.users.findIndex((u) => u.id == socket.id);
+
 		if(index > -1){
 			let currentRival = this.users[index].rival;
 			if(currentRival){
 				currentRival.rival = null;
 				currentRival.socket.disconnect();
 				if(currentRival.game) this.deleteGame(currentRival.game.id);
+				const index = this.users.findIndex((u) => u.id == currentRival.socket.id);
+				this.users.splice(index, 1);
 			}
 			this.users.splice(index, 1);
 		}
@@ -132,6 +134,11 @@ class GameServer {
 		p1.game = newGame;
 		p2.game = newGame;
 		return {sB: newGame.serializedBoard, fN: newGame.finalNumber};
+	}
+
+	remUserCode(socket,code){
+		let index = this.users.findIndex((u) => u.id == socket.id);
+		this.users.splice(index, 1);
 	}
 
 	deleteGame(id){
@@ -188,7 +195,6 @@ module.exports = {
 		gs.getServerInfo(socket);
 		
 		socket.on("play", (type,data) => {
-			console.log(type);
 			switch(type){
 				case 'rand': gs.addUser(socket);
 				break;
@@ -200,8 +206,11 @@ module.exports = {
 			
 		});
 
+		socket.on("removeGame", () => {
+			gs.remUserCode(socket);
+		});
+
 		socket.on("disconnect", () => {
-			console.log('disc ' + socket)
 			gs.remUser(socket);
 		});
 

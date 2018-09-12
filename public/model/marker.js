@@ -22,7 +22,7 @@ class Marker{
              + mid + ' 1 ' 
              +  x  + ' ' 
              +  y  + ' z';
-    if (this.alpha < 360) setTimeout(this.animate.bind(this), (1000 / 360) * 30); // Redraw
+    if (this.alpha < 360) setTimeout(this.animate.bind(this), (1000 / 360) * 30);
     else anim = `M 0 0 v ${-this.scale} A ${this.scale} ${this.scale} 1 1 1 -.1 ${-this.scale} z`;
     this.counter.set([['d',anim]]);
   }

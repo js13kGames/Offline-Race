@@ -35,8 +35,11 @@ class Intro{
 
   sharemenu(code){
     this.remOpt();
-    this.addOpt(new SVGText(code).render(40,105,'middle',{size:'3vh'}));
-    this.addOpt(new SVGText('Back',this.playwithmenu.bind(this)).render(70,105,'start',{color:'red'}));
+    this.addOpt(new SVGText(`Share code: ${code}`).render(30,105,'middle',{size:'0.5em'}));
+    this.addOpt(new SVGText('Back',() => {
+      this.playwithmenu.bind(this)();
+      G.client.socket.emit('removeGame');
+    }).render(65,105,'start',{color:'red'}));
   }
 
   submenu(){
@@ -49,27 +52,26 @@ class Intro{
   }
 
   wait(){
-    this.el.innerHTML = '';
     this.remOpt();
-    this.add(new SVGText('Offline Race').render(40,-15,'middle',{size:'1.2em'}));
     this.plug.set(true);
-    this.add(this.plug.render());
-    this.addOpt(new SVGText('Waiting for rival',this.submenu.bind(this)).render(40,105,'middle',{size:'1.5vh'}));
-    this.add(this.serverInfo.render(40,-5,'middle',{size:'0.5em',color:'gray'}));
-    this.addOpt(new SVGText('Exit',this.menu.bind(this)).render(65,105,'start',{color:'red'}));
+    this.addOpt(new SVGText('Waiting for rival',this.submenu.bind(this)).render(40,105,'middle',{size:'0.4em'}));
+    this.addOpt(new SVGText('Back',() => {
+      G.client.socket.emit('removeGame');
+      this.menu.bind(this)();
+    }).render(70,105,'start',{color:'red'}));
     this.add(this.options);
   }
 
   menu(){
-    if(G.client != null) G.disconnectClient();
+    G.client = null;
     G.changeView(-40,-40,160,160);
     this.el.innerHTML = '';
     this.remOpt();
-    this.add(new SVGText('Offline Race').render(40,-15,'middle',{size:'1.2em'}));
+    this.add(new SVGText('Offline Race').render(40,-15,'middle',{size:'1.4em'}));
     this.add(this.plug.render());
     this.plug.set(false);
     this.addOpt(new SVGText('Play',this.submenu.bind(this)).render(40,105,'middle'));
-    this.add(this.serverInfo.render(40,-5,'middle',{size:'0.5em',color:'gray'}));
+    this.add(this.serverInfo.render(40,-5,'middle',{size:'0.5em',color:'lightgray'}));
     this.add(this.options);
   }
 
