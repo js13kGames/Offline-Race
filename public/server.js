@@ -142,12 +142,23 @@ class GameServer {
 			this.remUser(user.rival.socket);
 		}
 	}
+
+	randomCode(){
+		let code = ""
+		for(let i = 0;i<4;i++){
+			const rand = Math.floor(Math.random() * 36);
+			const charcode = 48 + (rand<=9 ? rand : rand + 39)
+			code += String.fromCharCode(charcode);
+		}
+		return code;
+	}
 }
 
 const gs = new GameServer();
 
 module.exports = {
 	io: function (socket) {
+
 		gs.addUser(socket);
 		socket.on("disconnect", () => {
 			gs.remUser(socket);
