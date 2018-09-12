@@ -90,6 +90,29 @@ class GameServer {
 		this.users.push(newUser);
 	}
 
+	createUser(socket){
+		const code = this.randomCode();
+		const newUser = {id:socket.id, socket:socket , rival: null, game: null, numPlayer: 1, codeGame: code};
+		this.users.push(newUser);
+		socket.emit('code',code)
+	}
+
+	joinUser(socket,code){
+		let findedRival = this.users.find((u) => u.codeGame == code);
+		if(findedRival) {
+			const newUser = {id:socket.id, socket:socket , rival: findedRival, game: null, numPlayer: 2};
+			findedRival.rival = newUser;
+			const board = this.createGame(findedRival,newUser);
+			const sendBoard = {sB:board.sB, fN:board.fN, nR:DIM_ROWS, nC:DIM_COLS};
+			this.users.push(newUser);
+			findedRival.socket.emit('play',{board: sendBoard, player: 1});
+			socket.emit('play',{board: sendBoard, player: 2});
+		}
+		else {
+			socket.emit('wrongCode',code);
+		} 
+	}
+
 	remUser(socket) {
 		const index = this.users.findIndex((u) => u.id == socket.id);
 		if(index > -1){
@@ -100,7 +123,6 @@ class GameServer {
 				if(currentRival.game) this.deleteGame(currentRival.game.id);
 			}
 			this.users.splice(index, 1);
-
 		}
 	}
 
@@ -152,6 +174,10 @@ class GameServer {
 		}
 		return code;
 	}
+
+	getServerInfo(socket){
+		socket.emit('info',{p:this.users.length,g:this.games.length});
+	}
 }
 
 const gs = new GameServer();
@@ -159,8 +185,23 @@ const gs = new GameServer();
 module.exports = {
 	io: function (socket) {
 
-		gs.addUser(socket);
+		gs.getServerInfo(socket);
+		
+		socket.on("play", (type,data) => {
+			console.log(type);
+			switch(type){
+				case 'rand': gs.addUser(socket);
+				break;
+				case 'create': gs.createUser(socket);
+				break;
+				case 'join': gs.joinUser(socket,data);
+				break;
+			}
+			
+		});
+
 		socket.on("disconnect", () => {
+			console.log('disc ' + socket)
 			gs.remUser(socket);
 		});
 

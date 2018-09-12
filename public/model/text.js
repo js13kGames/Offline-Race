@@ -6,6 +6,10 @@ class SVGText{
     this.el.addEventListener("click", this.event, false);
   }
 
+  change(t){
+    this.el.innerHTML = t;
+  }
+
   render(px,py,anchor,font,editable){
     const fontStyle = font ? `fill:${font.color};font-size:${font.size}` : '';
     const style = (this.event ? 'cursor:pointer;' : '') + fontStyle;

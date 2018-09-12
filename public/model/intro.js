@@ -4,6 +4,8 @@ class Intro{
     this.el = createSVG('g');
     this.options = createSVG('g');
     this.state = s;
+    this.plug = new Plug(false); 
+    this.serverInfo = new SVGText('');
     this.anim = [{p: 0,style:'font-size:0vh'},{p:60,s:'font-size:8vh'},{p:100,s:'font-size:0vh'}];
   }
 
@@ -24,38 +26,50 @@ class Intro{
     },500);
   }
 
-
-
   playwithmenu(){
     this.remOpt();
-    this.addOpt(new SVGText('Create',this.sharemenu.bind(this)).render(15,105,'end'));
-    this.addOpt(new SVGText('Join',() => prompt()).render(40,105,'middle'));
+    this.addOpt(new SVGText('Create',G.play.bind(G,'create')).render(15,105,'end'));
+    this.addOpt(new SVGText('Join', G.play.bind(G,'join')).render(40,105,'middle'));
     this.addOpt(new SVGText('Back',this.submenu.bind(this)).render(65,105,'start',{color:'red'}));
   }
 
-  sharemenu(){
+  sharemenu(code){
     this.remOpt();
-    this.addOpt(new SVGText("Share:XJE",true).render(40,105,'middle',{size:'3vh'}));
+    this.addOpt(new SVGText(code).render(40,105,'middle',{size:'3vh'}));
     this.addOpt(new SVGText('Back',this.playwithmenu.bind(this)).render(70,105,'start',{color:'red'}));
   }
 
   submenu(){
+    if(G.client == null) G.initClient();
+    this.plug.set(true);
     this.remOpt();
-    this.addOpt(new SVGText('Rand',G.initGame.bind(G,'rand')).render(15,105,'end'));
+    this.addOpt(new SVGText('Rand',G.play.bind(G,'rand')).render(15,105,'end'));
     this.addOpt(new SVGText('With',this.playwithmenu.bind(this)).render(40,105,'middle'));
-    this.addOpt(new SVGText('Back',this.menu.bind(this)).render(65,105,'start',{color:'red'}));
+    this.addOpt(new SVGText('Exit',this.menu.bind(this)).render(65,105,'start',{color:'red'}));
   }
 
-
+  wait(){
+    this.el.innerHTML = '';
+    this.remOpt();
+    this.add(new SVGText('Offline Race').render(40,-15,'middle',{size:'1.2em'}));
+    this.plug.set(true);
+    this.add(this.plug.render());
+    this.addOpt(new SVGText('Waiting for rival',this.submenu.bind(this)).render(40,105,'middle',{size:'1.5vh'}));
+    this.add(this.serverInfo.render(40,-5,'middle',{size:'0.5em',color:'gray'}));
+    this.addOpt(new SVGText('Exit',this.menu.bind(this)).render(65,105,'start',{color:'red'}));
+    this.add(this.options);
+  }
 
   menu(){
+    if(G.client != null) G.disconnectClient();
     G.changeView(-40,-40,160,160);
     this.el.innerHTML = '';
     this.remOpt();
-    this.add(new SVGText('Offline Race').render(40,-10,'middle'));
-    this.add(new Plug(this.state == 'wait').render());
-    this.addOpt(new SVGText(this.state == 'connect' ? 'Play' : 'Waiting for rival',this.state == 'connect' ? this.submenu.bind(this) : null).render(40,105,'middle',(this.state == 'connect' ? null : {size:'3vh'})));
-    //if(this.state != 'connect') this.addOpt(new SVGText('Back',this.menu.bind(this)).render(65,105,'start',{color:'red'}));
+    this.add(new SVGText('Offline Race').render(40,-15,'middle',{size:'1.2em'}));
+    this.add(this.plug.render());
+    this.plug.set(false);
+    this.addOpt(new SVGText('Play',this.submenu.bind(this)).render(40,105,'middle'));
+    this.add(this.serverInfo.render(40,-5,'middle',{size:'0.5em',color:'gray'}));
     this.add(this.options);
   }
 

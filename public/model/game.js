@@ -11,7 +11,8 @@ class Game{
     this.maxH = () => this.screenHeight >= 450;
     this.numberToGet = null;
     this.isTouchDevice = ("ontouchstart" in document.documentElement);
-    this.add(new Intro('connect').render());
+    this.intro = new Intro('connect');
+    this.add(this.intro.render());
   }
 
   add (el) { this.el.appendChild(el) }
@@ -65,10 +66,14 @@ class Game{
     ]}).render(pos? {x:pos.x,y:pos.y,anchor:pos.anchor} : {x:'90%',y:'5%',anchor:'end'}));
   }
 
-  initGame(type){
-    console.log('p')
+  initClient(type){
     this.client = new GameClient();
     if(this.maxH())this.refresh();
+  }
+
+  disconnectClient(type){
+    this.client.socket.disconnect();
+    this.client = null;
   }
 
   endGame(youWin){
@@ -76,4 +81,11 @@ class Game{
     else this.showMsg('lose','YOU LOSE','red',{x:'50%',y:'50%',anchor:'middle'},true);
     this.state = 'connect';
   }
+
+  play(type){
+    let data;
+    if(type == 'join') data = prompt('Enter the code');
+    this.client.socket.emit('play',type,data);
+  }
+
 }

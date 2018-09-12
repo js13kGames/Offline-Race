@@ -7,28 +7,39 @@ class GameClient {
   initializeEvents(socket){
     socket.on("connect", () => {
       G.state = 'wait';
-      G.clear();
-      G.add(new Intro('wait').render());
     });
 
     socket.on("disconnect", () => {
-      if(G.state != 'finished'){
-        G.showMsg('disc','Sorry your rival has disconnected','red');
-        setTimeout(() => {
-          G.state = 'wait';
-          G.clear();
-          G.add(new Intro('connect').render());
-        },3000);
+      if(G.state != 'wait'){
+        if(G.state != 'finished'){
+          G.showMsg('disc','Sorry your rival has disconnected','red');
+          setTimeout(() => {
+            G.state = 'wait';
+            G.clear();
+            this.socket.disconnect();
+            G.add(new Intro('connect').render());
+          },3000);
+        }
+        else G.showMsg('end','Game finished click anywhere to exit','red');
       }
-      else G.showMsg('end','Game finished click anywhere to exit','red');
-      
     });
 
     socket.on("wait", () => {
       document.body.onresize = null;
       G.state = 'wait';
-      G.clear();
-      G.add(new Intro('wait').render());
+      G.intro.wait();
+    });
+
+    socket.on("code", (code) => {
+      document.body.onresize = null;
+      G.state = 'wait';
+      G.intro.sharemenu(code);
+    });
+
+    socket.on("wrongCode", (code) => {
+      alert(`sorry cant find the code: ${code}`);
+      G.state = 'wait';
+      G.intro.submenu();
     });
 
     socket.on("play", (data) => {
@@ -71,6 +82,10 @@ class GameClient {
       });
       G.endGame(me.id == idPlayer);
       G.state = 'finished';
+    });
+
+    socket.on("info", (info) => {
+      G.intro.serverInfo.change(`Now: ${info.p} users and ${info.g} games`);
     });
   }
 }
