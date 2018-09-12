@@ -2,7 +2,7 @@
 
 // Game server
 
-const DIM_ROWS = 6;
+const DIM_ROWS = 50;
 const DIM_COLS = 6;
 
 class Game {
